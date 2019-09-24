@@ -2,5 +2,24 @@
      User Global Variables
 *******************************/
 
+@primaryColor: #2f3032;
+@pageBackground: #fcfcfc;
+
 /*@fontName: -apple-system, BlinkMacSystemFont, "Raleway", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Raleway Emoji", "Raleway Symbol";*/
-@fontName: 'Raleway', sans-serif;
+/*@fontName: 'Turret Road', sans-serif*/;
+
+@font-path : '/client/src/styles/assets/fonts';
+
+@font-face {
+    font-family: 'PF Din Text Comp Pro';
+    src: url('@{font-path}/pfdintextcomppro-regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PF Din Text Comp Pro Bold';
+    src: url('@{font-path}/pfdintextcomppro-bold.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
