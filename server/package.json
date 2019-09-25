@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "migrate": "npx sequelize db:migrate",
+    "add-migration": "npx sequelize migration:generate --name",
+    "seed": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all"
   },
   "dependencies": {
     "cors": "^2.8.5",

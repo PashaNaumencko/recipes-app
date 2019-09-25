@@ -1,4 +1,3 @@
-// const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -7,6 +6,7 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
 
 const app = express();
 app.use(cors());
