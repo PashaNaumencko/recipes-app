@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RecipeList from '../RecipeList/index';
+import CreateRecipe from '../CreateRecipe/index';
 import Header from '../../components/Header/index';
 import Footer from '../../components/Footer/index';
 
@@ -11,6 +12,7 @@ const Routing = () => {
       <Header />
       <Switch>
         <Route exact path="/" component={RecipeList} />
+        <Route exact path="/recipes/create" component={CreateRecipe} />
       </Switch>
       <Footer />
     </>

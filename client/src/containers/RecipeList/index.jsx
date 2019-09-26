@@ -1,18 +1,10 @@
 import React from 'react';
-import { Container, Button, Image, Header, Rating, Label, Icon, Dropdown } from 'semantic-ui-react';
+import { Container, Button, Image, Header, Rating, Label, Icon, Dropdown, Segment } from 'semantic-ui-react';
 
 import styles from './styles.module.scss';
 import firstPhoto from '../../styles/assets/images/photo1.png';
 import secondPhoto from '../../styles/assets/images/photo2.png';
 import thirdPhoto from '../../styles/assets/images/photo3.png';
-import { ReactComponent as SportSVG } from '../../styles/assets/icons/sport.svg';
-import { ReactComponent as PotSVG } from '../../styles/assets/icons/pot.svg';
-
-const complexityOptions = [
-  { key: 1, text: 'Easy', value: 'Easy' },
-  { key: 2, text: 'Medium', value: 'Medium' },
-  { key: 3, text: 'Hard', value: 'Hard' },
-];
 
 class RecipeList extends React.Component {
   constructor(props) {
@@ -22,13 +14,13 @@ class RecipeList extends React.Component {
   render() {
     return (
       <Container>
+        <h2 className={styles.mainHeading}>Recipes</h2>
         <div className={styles.recipeListHeader}>
-          <Dropdown text="Select complexity" options={complexityOptions} selection className={styles.complexitySelect} />
           <Button className={styles.createRecipeButton}>Create new recipe</Button>
         </div>
         <div className={styles.recipeListGrid}>
           <div className={styles.recipeListBox}>
-            <Image src={firstPhoto} />
+            <Image src={firstPhoto} fluid spaced as="a" />
             <div className={styles.recipeListInfo}>
               <div className={styles.recipeListContent}>
                 <h3>Утиные ножки с овощами и грудинкой</h3>
@@ -38,11 +30,7 @@ class RecipeList extends React.Component {
                     123 min
                   </Label>
                   <Label className={styles.recipeLabel}>
-                    <PotSVG />
-                     Hard
-                  </Label>
-                  <Label className={styles.recipeLabel}>
-                    <SportSVG className={styles.importedIcons} />
+                    <Icon name='utensils' />
                     123 ccal
                   </Label>
                 </div>
@@ -62,20 +50,18 @@ class RecipeList extends React.Component {
           </div>
 
           <div className={styles.recipeListBox}>
-            {/* <img src={firstPhoto} alt=""/> */}
-            <Image src={secondPhoto} />
+            <Image src={secondPhoto} fluid spaced as="a" />
             <div className={styles.recipeListInfo}>
               <div className={styles.recipeListContent}>
                 <h3>Утиные ножки с овощами и грудинкой</h3>
                 <div className={styles.recipeLabels}>
                   <Label className={styles.recipeLabel}>
-                    <Icon name='clock' /> 123 min
+                    <Icon name='clock' />
+                    123 min
                   </Label>
                   <Label className={styles.recipeLabel}>
-                    <PotSVG /> Hard
-                  </Label>
-                  <Label className={styles.recipeLabel}>
-                    <SportSVG /> 123 ccal
+                    <Icon name='utensils' />
+                    123 ccal
                   </Label>
                 </div>
                 <p>
@@ -94,19 +80,18 @@ class RecipeList extends React.Component {
           </div>
 
           <div className={styles.recipeListBox}>
-            <Image src={thirdPhoto} />
+            <Image src={thirdPhoto} fluid spaced as="a" />
             <div className={styles.recipeListInfo}>
               <div className={styles.recipeListContent}>
                 <h3>Утиные ножки с овощами и грудинкой</h3>
                 <div className={styles.recipeLabels}>
                   <Label className={styles.recipeLabel}>
-                    <Icon name='clock' /> 123 min
+                    <Icon name='clock' />
+                    123 min
                   </Label>
                   <Label className={styles.recipeLabel}>
-                    <PotSVG /> Hard
-                  </Label>
-                  <Label className={styles.recipeLabel}>
-                    <SportSVG /> 123 ccal
+                    <Icon name='utensils' />
+                    123 ccal
                   </Label>
                 </div>
                 <p>

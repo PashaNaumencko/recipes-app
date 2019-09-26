@@ -1,0 +1,63 @@
+:local(.mainHeading) {
+    text-transform: uppercase;
+    font-size: 1.8em;
+    font-weight: 400;
+    line-height: 2em;
+    text-align: center;
+}
+
+:global(.vertical-timeline::before) {
+    background: #2f3032
+}
+
+:global(.vertical-timeline-element-icon.bounce-in) {
+    background: rgb(47, 48, 50);
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: none;
+}
+
+:global(.vertical-timeline-element-content.bounce-in) {
+    box-shadow: none;
+}
+
+:global(.vertical-timeline-element-content.bounce-in p) {
+    margin: 0;
+    font-weight: bold;
+    // font-size: 1.1em;
+}
+
+:local(.recipeSteps) {
+    font-size: 1em;
+    position: relative;
+    &::before {
+        content: "";
+        width: 3px;
+        height: 100%;
+        background: #2f3032;
+        left: 0;
+        position: absolute;
+    }
+}
+
+:local(.recipeStepNumber) {
+    background: #2f3032;
+    color: #fbfbfb;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    margin-left: -23px;
+    border-radius: 50%;
+    font-size: 1.5em;
+    span {
+        transform: translate(50%, 50%);
+    }
+}
+
+:local(.recipeStepBox) {
+    margin-left: 15px;
+}

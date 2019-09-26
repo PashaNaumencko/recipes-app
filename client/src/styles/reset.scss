@@ -104,13 +104,24 @@ section {
 }
 
 body {
-  font-family: 'PF Din Text Comp Pro Bold', sans-serif !important;
+  // font-family: 'PF Din Text Comp Pro Bold', sans-serif !important;
+  font-family: Tahoma, sans-serif !important;
+  color: #6c6c6c;
   line-height: 1;
   font-size: 16px !important;
   display: flex;
   flex-direction: column;
   #root {
     height: 100%;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Helvetica, sans-serif !important;
+    color: #8c8c8c;
   }
 }
 

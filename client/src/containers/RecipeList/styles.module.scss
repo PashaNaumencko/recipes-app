@@ -1,8 +1,15 @@
+:local(.mainHeading) {
+    text-transform: uppercase;
+    font-size: 1.8em;
+    font-weight: 400;
+    line-height: 2em;
+    text-align: center;
+}
+
 :local(.recipeListHeader) {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row-reverse;
     align-items: center;
-    // border-bottom: 2px solid #cccccc;
     margin-bottom: 15px;
 }
 
@@ -12,37 +19,24 @@
     background-color: #c7b084;
     border: 2px solid #f2f2f2;
     font-weight: 400;
-    // font-family: 'PF Din Text Comp Pro', sans-serif;
     font-size: 1em;
     line-height: 1.5em;
     border-radius: 0;
     color: #ffffff;
 } 
 
-:global(.ui.selection.dropdown):local(.complexitySelect) {
-    background: #fbfbfb;
-    border: 2px solid #cccccc;
-    border-radius: 0;
-}
-
 :local(.recipeListGrid) {
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     h3 {
         color: #3d3d3d;
-        font-family: 'PF Din Text Comp Pro Medium', sans-serif;
         font-size: 1.5em;
         font-weight: lighter;
         text-align: center;
     }
-    img {
-        width: 50%;
-        height: 294px;
-    }
     p {
-        color: #5b5b5b;
-        font-size: 1em;
+        text-align: center;
         font-weight: 400;
         line-height: 1.03em;
         text-overflow: ellipsis;
@@ -51,13 +45,11 @@
 
 :local(.recipeListBox) {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    width: 550px;
+    width: 350px;
     border: 2px solid #f2f2f2;
-}
-
-:local(.recipeListInfo) {
-    width: 50%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px;
 }
 
 :local(.recipeListContent) {
@@ -72,9 +64,8 @@
 
 :global(.ui.label):local(.recipeLabel) {
     display: flex;
-    align-items: center;
-    background-color: white;
-    color: #b5904e;
+    background-color: #ffffff;
+    color: #8c8c88;
     font-size: 0.785em;
     font-weight: 600;
     border: 2px solid #f2f2f2;
@@ -87,10 +78,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    
+    color: #cccccc;
     border-top: 2px solid #f2f2f2;
-}
-
-:local(.importedIcons) {
-    color: #b5904e;
 }

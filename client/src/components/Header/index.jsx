@@ -14,7 +14,6 @@ const Header = () => (
         <Image src={HeaderLogoDiv} centered />
       </div>
     </div>
-    <h2 className={styles.mainHeading}>Recipes</h2>
   </Container>
 );
 
