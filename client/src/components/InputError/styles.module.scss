@@ -1,0 +1,8 @@
+$red: #ed1a37;
+
+:local(.errorWrapper) {
+  color: $red;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 85%;
+}

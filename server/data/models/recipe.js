@@ -3,7 +3,10 @@ module.exports = (sequelize, DataTypes) => {
     'recipe',
     {
       title: DataTypes.STRING,
-      ingredients: DataTypes.TEXT
+      imgUrl: DataTypes.STRING,
+      ingredients: DataTypes.TEXT,
+      duration: DataTypes.STRING,
+      calorificValue: DataTypes.INTEGER
     },
     {
       timestamps: true

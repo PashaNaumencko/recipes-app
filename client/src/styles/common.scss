@@ -1,0 +1,33 @@
+h2 {
+    text-transform: uppercase;
+    font-size: 1.8em;
+    font-weight: 400;
+    line-height: 2em;
+    text-align: center;
+}
+
+
+.ui.container .ui.form .field input {
+    border: 1px solid #bbbbbb;
+    border-radius: 0;
+    font-size: 1.1em;
+    color: #333333;
+}
+
+
+.ui.container .ui.button {
+    border-radius: 0;
+    border: 1px solid #bbbbbb;
+    font-weight: bold;
+    background: #ffffff;
+    color: #333333;
+}
+
+.ui.container .ui.segment {
+    border-radius: 0;
+    border: 2px solid #f2f2f2;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px;
+    &.loading {
+        min-height: 420px;
+    }
+}

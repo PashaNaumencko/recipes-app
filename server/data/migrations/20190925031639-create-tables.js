@@ -11,12 +11,10 @@ module.exports = {
           defaultValue: Sequelize.literal('gen_random_uuid()')
         },
         title: {
-          allowNull: false,
           type: Sequelize.STRING,
           unique: true
         },
         imgUrl: {
-          allowNull: false,
           type: Sequelize.STRING
         },
         ingredients: {
@@ -25,16 +23,10 @@ module.exports = {
         previousVersionId: {
           type: Sequelize.UUID
         },
-        complexity: {
-          allowNull: false,
-          type: Sequelize.STRING
-        },
         calorificValue: {
-          allowNull: false,
           type: Sequelize.INTEGER
         },
         duration: {
-          allowNull: false,
           type: Sequelize.STRING
         },
         createdAt: Sequelize.DATE,

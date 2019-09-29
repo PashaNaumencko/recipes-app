@@ -1,129 +1,209 @@
 import React from 'react';
-import { Container, Grid, Button, Image, Header, Label, Icon, Dropdown } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Container, Grid, Segment, Button, Image, Loader, Icon, Form as UIForm } from 'semantic-ui-react';
+import StepForm from '../../components/StepForm/index';
+import AdditionalInfoForm from '../../components/AdditionalInfoForm/index';
+import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines/routines';
 import ImageUploader from 'react-images-upload';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import 'react-vertical-timeline-component/style.min.css';
+
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 import styles from './styles.module.scss';
 
-const SignupSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  lastName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  email: Yup.string()
-    .email('Invalid email')
-    .required('Required'),
+const TitleSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(2, 'Minimum length - 2 characters')
+    .max(255, 'Maximum length - 255 characters')
+    .required('Required')
 });
-
 
 class CreateRecipe extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      imgFile: null,
+      isCreating: false,
+      isEditing: false
+    };
+
+    this.onCreateSubmit = this.onCreateSubmit.bind(this);
+    this.onEditTitleSubmit = this.onEditTitleSubmit.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
+    this.onEditClick = this.onEditClick.bind(this);
+    this.onCancelClick = this.onCancelClick.bind(this);
   }
 
-  render() {
+  componentDidMount() {
+    const { match: { params: { id } }, fetchRecipe } = this.props;
+    if (id) {
+      fetchRecipe(id);
+      this.setState({ isCreating: true });
+    }
+  }
+
+  renderField = ({ field, form }) => {
+    if (field.value === null) {
+      field.value = '';
+    }
+
     return (
-      <Container>
+      <UIForm.Input
+        error={form.errors[field.name] ? { content: form.errors[field.name], pointing: 'left' } : null}
+        {...field}
+      />
+    );
+  }
+
+  onImageChange(image) {
+    this.setState({
+      imgFile: image
+    });
+  }
+
+  renderImageUploader = ({ field }) => {
+    return (
+      <ImageUploader
+        {...field}
+        onChange={this.onImageChange}
+        withIcon
+        buttonText='Choose dish image'
+        withPreview
+        imgExtension={['.jpg', '.png']}
+        maxFileSize={5242880}
+        singleImage
+      />
+    );
+  }
+
+  renderCreateRecipeForm() {
+    const { isEditing } = this.state;
+    const { title } = this.props;
+    return (
+      <>
+        <h2 className={styles.mainHeading}>{isEditing ? 'Edit recipe title' : 'Create recipe'}</h2>
         <Formik
           initialValues={{
-            firstName: '',
-            lastName: '',
-            email: '',
+            title
           }}
-          validationSchema={SignupSchema}
-          onSubmit={values => {
-            // same shape as initial values
-            console.log(values);
-          }}
+          validationSchema={TitleSchema}
+          onSubmit={isEditing ? this.onEditTitleSubmit : this.onCreateSubmit}
         >
           {({ errors, touched }) => (
-            <Form>
-              <Field name="firstName" />
-              {errors.firstName && touched.firstName ? (
-                <div>{errors.firstName}</div>
-              ) : null}
-              <Field name="lastName" />
-              {errors.lastName && touched.lastName ? (
-                <div>{errors.lastName}</div>
-              ) : null}
-              <Field name="email" type="email" />
-              {errors.email && touched.email ? <div>{errors.email}</div> : null}
-              <button type="submit">Submit</button>
+            <Form className="ui form">
+              <UIForm.Group>
+                <Field type="text" name="title" placeholder="Enter recipe title" render={this.renderField} />
+                <Button type="submit" disabled={errors.title || !touched.title} className={styles.submitButton}>
+                  {isEditing ? 'Edit recipe title' : 'Create recipe'}
+                </Button>
+                {isEditing ? (
+                  <Button onClick={this.onCancelClick}>
+                    Cancel
+                  </Button>
+                ): null}
+              </UIForm.Group>
+              <Field type="file" name="imgFile" render={this.renderImageUploader} />
             </Form>
           )}
         </Formik>
-        <h2 className={styles.mainHeading}>Create Recipe</h2>
-        <ImageUploader
-          withIcon
-          buttonText='Choose dish image'
-          withPreview
-          imgExtension={['.jpg', '.png']}
-          maxFileSize={5242880}
-        />
-        <Grid>
-          <Grid.Column computer={12} tablet={8} mobile={16}>
+      </>
+    );
+  }
 
-            <VerticalTimeline layout="1-column">
-              <VerticalTimelineElement
-                // iconStyle={{ 
-                //   background: '#2f3032', 
-                //   color: '#fff', 
-                //   display: 'flex', 
-                //   alignItems: 'center', 
-                //   justifyContent: 'center',
-                //   fontWeight: 'bold' 
-                // }}
-                icon={1}
-              >
-                <p>
-                  Creative Direction, User Experience, Visual Design, Project Management, Team Leading
-                </p>
-              </VerticalTimelineElement>
-              <VerticalTimelineElement
-                // iconStyle={{ 
-                //   background: '#2f3032', 
-                //   color: '#fff', 
-                //   display: 'flex', 
-                //   alignItems: 'center', 
-                //   justifyContent: 'center',
-                //   fontWeight: 'bold' 
-                // }}
-                icon={2}
-              >
-                <p>
-                  Creative Direction, User Experience, Visual Design, SEO, Online Marketing
-                </p>
-              </VerticalTimelineElement>
-            </VerticalTimeline>
-            {/* <div className={styles.recipeSteps}>
-              <div className={styles.recipeStepBox}>
-                <div className={styles.recipeStepNumber}>
-                  <div>1</div>
-                </div>
-                <p>
-                    While building the image processing app I needed
-                    to upload the images to an express server. This proved 
-                    to be a very awesome learning experience that I have felt 
-                    like sharing in order to help others and probably myself again down the road.
-                </p>
-                <div className={styles.recipeStepDesc}></div>
+  onEditClick() {
+    this.setState({ isEditing: true });
+  }
+
+  onCancelClick() {
+    this.setState({ isEditing: false });
+  }
+
+
+  onCreateSubmit(values) {
+    const { imgFile } = this.state;
+    this.props.createRecipe({ ...values, imgFile });
+    const { fetchRecipeLoading } = this.props;
+    if(!fetchRecipeLoading) {
+      this.setState({ isCreating: true, isEditing: false });
+    }
+  }
+
+  onEditTitleSubmit(values) {
+    const { imgFile } = this.state;
+    const { recipeId } = this.props;
+    this.props.editRecipeTitle({ ...values, recipeId, imgFile });
+    const { fetchRecipeLoading } = this.props;
+    if(!fetchRecipeLoading) {
+      this.setState({ isEditing: false });
+    }
+  }
+
+  render() {
+    const { isCreating, isEditing } = this.state;
+    const { imgUrl, title, createRecipeLoading, fetchRecipeLoading, editRecipeTitleLoading } = this.props;
+    return fetchRecipeLoading ? (
+      <Container>
+        <Segment basic loading></Segment>
+      </Container>
+    ) : (
+      <Container>
+        <Segment>
+          {createRecipeLoading || editRecipeTitleLoading ? (
+            <Segment basic loading></Segment>
+          ) : isEditing ? 
+            this.renderCreateRecipeForm() 
+            : isCreating ? (
+              <div className={styles.recipeTitlePlaceholder}>
+                <h2 className={styles.mainHeading}>{title}</h2>
+                <Image src={imgUrl} />
+                <Button onClick={this.onEditClick}>
+                  Edit recipe title
+                </Button>
               </div>
-            </div> */}
-          </Grid.Column>
-          <Grid.Column computer={4} tablet={8} mobile={16}>
-
-          </Grid.Column>
-        </Grid>
+            ) : this.renderCreateRecipeForm()}
+        </Segment >
+        {isCreating ? (
+          <Grid>
+            <Grid.Column computer={10} tablet={8} mobile={16}>
+              <StepForm />
+            </Grid.Column>
+            <Grid.Column computer={6} tablet={8} mobile={16}>
+              <AdditionalInfoForm />
+            </Grid.Column>
+          </Grid >
+        ) : null}
       </Container>
     );
   }
 }
-    
-export default CreateRecipe;
+
+CreateRecipe.propTypes = {
+  recipeId: PropTypes.string,
+  createRecipe: PropTypes.func,
+  fetchRecipe: PropTypes.func
+};
+
+const mapStateToProps = ({ 
+  currentRecipeData: { id, imgUrl, title, loading: fetchRecipeLoading }, 
+  createRecipeData: { loading: createRecipeLoading },
+  editRecipeTitleData: { loading: editRecipeTitleLoading },
+}) => ({
+  recipeId: id,
+  title,
+  imgUrl,
+  createRecipeLoading,
+  editRecipeTitleLoading,
+  fetchRecipeLoading
+});
+
+const mapDispatchToProps = {
+  createRecipe,
+  fetchRecipe,
+  editRecipeTitle
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateRecipe);

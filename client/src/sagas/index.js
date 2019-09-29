@@ -1,5 +1,7 @@
-import { all, call } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
+
+import createRecipeSagas from '../containers/CreateRecipe/sagas';
 
 export default function* rootSaga() {
-    yield all([]);
+  yield all([createRecipeSagas()]);
 }

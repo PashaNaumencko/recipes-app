@@ -1,0 +1,32 @@
+:global(.ui.form .field textarea) {
+    border: 1px solid #bbbbbb;
+    border-radius: 0;
+    padding: 8px 4px;
+    font-size: 1.1em;
+    color: #333333;
+}
+
+:global(.vertical-timeline::before) {
+    background: #2f3032;
+    width: 2px;
+}
+
+:global(.vertical-timeline-element-icon.bounce-in) {
+    background: rgb(47, 48, 50);
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: none;
+}
+
+:global(.vertical-timeline-element-content.bounce-in) {
+    box-shadow: none;
+}
+
+:global(.vertical-timeline-element-content.bounce-in p) {
+    margin: 0;
+    font-weight: bold;
+    // font-size: 1.1em;
+}

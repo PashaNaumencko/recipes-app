@@ -9,6 +9,11 @@ import thirdPhoto from '../../styles/assets/images/photo3.png';
 class RecipeList extends React.Component {
   constructor(props) {
     super(props);
+    this.onCreateClick = this.onCreateClick.bind(this);
+  }
+
+  onCreateClick() {
+    this.props.history.push('/recipes/create');
   }
 
   render() {
@@ -16,7 +21,7 @@ class RecipeList extends React.Component {
       <Container>
         <h2 className={styles.mainHeading}>Recipes</h2>
         <div className={styles.recipeListHeader}>
-          <Button className={styles.createRecipeButton}>Create new recipe</Button>
+          <Button onClick={this.onCreateClick} className={styles.createRecipeButton}>Create new recipe</Button>
         </div>
         <div className={styles.recipeListGrid}>
           <div className={styles.recipeListBox}>
