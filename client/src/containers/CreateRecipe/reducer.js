@@ -1,4 +1,4 @@
-import { fetchRecipe, createRecipe, editRecipeTitle } from '../../routines/routines';
+import { fetchRecipe, createRecipe, editRecipe } from '../../routines/routines';
 
 const initialFetchRecipeState = {
   id: '',
@@ -49,24 +49,24 @@ export const createRecipeData = (state = initialCreateRecipeState, action) => {
   }
 };
 
-export const editRecipeTitleData = (state = initialCreateRecipeState, action) => {
+export const editRecipeData = (state = initialCreateRecipeState, action) => {
   switch (action.type) {
-  case editRecipeTitle.TRIGGER:
+  case editRecipe.TRIGGER:
     return {
       ...state,
       loading: true
     };
-  case editRecipeTitle.SUCCESS:
+  case editRecipe.SUCCESS:
     return {
       ...state,
       response: action.payload
     };
-  case editRecipeTitle.FAILURE:
+  case editRecipe.FAILURE:
     return {
       ...state,
       error: action.payload
     };
-  case editRecipeTitle.FULFILL:
+  case editRecipe.FULFILL:
     return {
       ...state,
       loading: false

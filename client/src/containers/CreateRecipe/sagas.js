@@ -1,6 +1,6 @@
-import { takeEvery, put, call, all } from 'redux-saga/effects';
+import { takeEvery, put, call, all, select } from 'redux-saga/effects';
 import * as recipeService from '../../services/recipeService';
-import { fetchRecipe, createRecipe, editRecipeTitle } from '../../routines/routines';
+import { fetchRecipe, createRecipe, editRecipe } from '../../routines/routines';
 
 function* recipeRequest({ payload: recipeId }) {
   try {
@@ -30,6 +30,8 @@ function* createRecipeRequest({ payload }) {
     yield put(createRecipe.failure(error.message));
   } finally {
     yield put(createRecipe.fulfill());
+    const { currentRecipeData: { id: recipeId } } = yield select();
+    payload.history.push(`/recipes/${recipeId}`);
   }
 }
 
@@ -37,24 +39,25 @@ function* watchCreateRecipeRequest() {
   yield takeEvery(createRecipe.TRIGGER, createRecipeRequest);
 }
 
-function* editRecipeTitleRequest({ payload }) {
+function* editRecipeRequest({ payload }) {
   try {
-    yield put(editRecipeTitle.request());
-    const editRecipeResponse = yield call(recipeService.editRecipeTitle, payload);
-    const fetchRecipeResponse = yield call(recipeService.getRecipeByTitle, payload.title);
-    yield put(editRecipeTitle.success(editRecipeResponse));
+    yield put(editRecipe.request());
+    const editRecipeResponse = yield call(recipeService.editRecipe, payload);
+    yield put(editRecipe.success(editRecipeResponse));
+    const { currentRecipeData: { id: recipeId } } = yield select();
+    const fetchRecipeResponse = yield call(recipeService.getRecipeById, recipeId);
     yield put(fetchRecipe.success(fetchRecipeResponse));
   } catch (error) {
-    yield put(editRecipeTitle.failure(error.message));
+    yield put(editRecipe.failure(error.message));
   } finally {
-    yield put(editRecipeTitle.fulfill());
+    yield put(editRecipe.fulfill());
   }
 }
 
-function* watchEditRecipeTitleRequest() {
-  yield takeEvery(editRecipeTitle.TRIGGER, editRecipeTitleRequest);
+function* watchEditRecipeRequest() {
+  yield takeEvery(editRecipe.TRIGGER, editRecipeRequest);
 }
 
 export default function* createRecipePageSagas() {
-  yield all([watchRecipeRequest(), watchCreateRecipeRequest(), watchEditRecipeTitleRequest()]);
+  yield all([watchRecipeRequest(), watchCreateRecipeRequest(), watchEditRecipeRequest()]);
 }

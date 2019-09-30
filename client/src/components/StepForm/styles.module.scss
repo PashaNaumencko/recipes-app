@@ -2,8 +2,11 @@
     border: 1px solid #bbbbbb;
     border-radius: 0;
     padding: 8px 4px;
-    font-size: 1.1em;
+    font-size: 1.3em;
     color: #333333;
+    &:focus {
+        border-radius: 0;
+    }
 }
 
 :global(.vertical-timeline) {
@@ -44,7 +47,8 @@
 
 :global(.vertical-timeline-element-content.bounce-in p) {
     margin: 0;
-    // font-size: 1.1em;
+    font-size: 1.3em;
+    width: 85%;
 }
 
 :global(.ui.container .ui.primary.icon.button):local(.addStepButton) {

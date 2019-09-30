@@ -23,7 +23,7 @@ class StepForm extends React.Component {
 
     this.state = {
       isAdding: false,
-      isEditingId: null
+      isEditingStep: null
     };
 
     this.onCreateSubmit = this.onCreateSubmit.bind(this);
@@ -55,16 +55,14 @@ class StepForm extends React.Component {
 
   onEditSubmit(values) {
     const { recipeId } = this.props;
-    const { isEditingId } = this.state;
-    this.props.editRecipeStep({ ...values, recipeId, stepId: isEditingId });
+    const { isEditingStep: { id } } = this.state;
+    this.props.editRecipeStep({ ...values, recipeId, stepId: id });
     this.setState({ isEditingStep: null });
   }
 
   renderStepForm() {
     const { isEditingStep } = this.state;
-    // const { steps } = this.props;
     const description = isEditingStep ? isEditingStep.description : '';
-    // const { description } = this.props.steps[isEditingId];
     return (
       <Formik
         initialValues={{
@@ -79,7 +77,8 @@ class StepForm extends React.Component {
               <label>Step</label>
               <Field name="description" placeholder="Describe the next cooking step" render={this.renderTextAreaField} />
             </UIForm.Field>
-            <Button type="submit" disabled={errors.description && !touched.description} className={styles.submitButton}>
+            <Button type="submit" disabled={errors.description && !touched.description} primary={isEditingStep}>
+              <Icon name={isEditingStep ? 'edit' : 'save'} />
               {isEditingStep ? 'Edit' : 'Save'}
             </Button>
             {isEditingStep ? (
@@ -98,7 +97,7 @@ class StepForm extends React.Component {
   }
 
   onEditClick(event, step) {
-    this.setState({ isEditingStep: step });
+    this.setState({ isEditingStep: step, isAdding: false });
   }
 
   onCancelClick() {
@@ -118,7 +117,7 @@ class StepForm extends React.Component {
       editRecipeStepLoading,
       deleteRecipeStepLoading
     } = this.props;
-    return addRecipeStepLoading || editRecipeStepLoading || deleteRecipeStepLoading 
+    return fetchRecipeLoading || addRecipeStepLoading || editRecipeStepLoading || deleteRecipeStepLoading 
       ? <Segment loading></Segment> 
       : (
         <Segment>
@@ -155,7 +154,7 @@ class StepForm extends React.Component {
                 )}
               </>
           ) : (
-            <VerticalTimeline>
+            <VerticalTimeline layout="1-column">
               <VerticalTimelineElement icon={1}>
                 {this.renderStepForm()}
               </VerticalTimelineElement>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Container, Grid, Segment, Button, Image, Loader, Icon, Form as UIForm } from 'semantic-ui-react';
 import StepForm from '../../components/StepForm/index';
 import AdditionalInfoForm from '../../components/AdditionalInfoForm/index';
-import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines/routines';
+import { createRecipe, fetchRecipe, editRecipe } from '../../routines/routines';
 import ImageUploader from 'react-images-upload';
 
 import { Formik, Form, Field } from 'formik';
@@ -29,14 +29,14 @@ class CreateRecipe extends React.Component {
     };
 
     this.onCreateSubmit = this.onCreateSubmit.bind(this);
-    this.onEditTitleSubmit = this.onEditTitleSubmit.bind(this);
+    this.onEditSubmit = this.onEditSubmit.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
   }
 
   componentDidMount() {
-    const { match: { params: { id } }, fetchRecipe, fetchRecipeLoading } = this.props;
+    const { match: { params: { id } }, fetchRecipe } = this.props;
     if (id) {
       fetchRecipe(id);
       this.setState({ isCreating: true });
@@ -81,14 +81,14 @@ class CreateRecipe extends React.Component {
     const { isEditing } = this.state;
     const { title } = this.props;
     return (
-      <>
+      <Segment>
         <h2 className={styles.mainHeading}>{isEditing ? 'Edit recipe title' : 'Create recipe'}</h2>
         <Formik
           initialValues={{
             title
           }}
           validationSchema={TitleSchema}
-          onSubmit={isEditing ? this.onEditTitleSubmit : this.onCreateSubmit}
+          onSubmit={isEditing ? this.onEditSubmit : this.onCreateSubmit}
         >
           {({ errors, touched }) => (
             <Form className="ui form">
@@ -107,7 +107,7 @@ class CreateRecipe extends React.Component {
             </Form>
           )}
         </Formik>
-      </>
+      </Segment>
     );
   }
 
@@ -122,19 +122,17 @@ class CreateRecipe extends React.Component {
 
   onCreateSubmit(values) {
     const { imgFile } = this.state;
-    // const { createRecipeResponse, createRecipeLoading } = this.props;
-    this.props.createRecipe({ ...values, imgFile });
+    const { history } = this.props;
+    this.props.createRecipe({ ...values, imgFile, history });
     this.setState({ isCreating: true, isEditing: false });
+
   }
 
-  onEditTitleSubmit(values) {
+  onEditSubmit(values) {
     const { imgFile } = this.state;
     const { recipeId } = this.props;
-    this.props.editRecipeTitle({ ...values, recipeId, imgFile });
-    const { editRecipeTitleLoading } = this.props;
-    if(!editRecipeTitleLoading) {
-      this.setState({ isEditing: false });
-    }
+    this.props.editRecipe({ ...values, recipeId, imgFile });
+    this.setState({ isEditing: false });
   }
 
   render() {
@@ -143,30 +141,29 @@ class CreateRecipe extends React.Component {
       imgUrl, 
       title, 
       createRecipeLoading, 
-      createRecipeResponse,
       fetchRecipeLoading, 
-      editRecipeTitleLoading 
+      editRecipeLoading 
     } = this.props;
     
-    console.log(createRecipeResponse, !createRecipeLoading);
     return (
       <Container>
-        <Segment>
-          {createRecipeLoading || editRecipeTitleLoading || fetchRecipeLoading ? (
-            <Segment loading></Segment>
-          ) : isEditing ? 
-            this.renderCreateRecipeForm() 
-            : isCreating ? (
+        {createRecipeLoading || fetchRecipeLoading || editRecipeLoading ? (
+          <Segment loading></Segment>
+        ) : isEditing ? 
+          this.renderCreateRecipeForm() 
+          : isCreating ? (
+            <Segment>
               <div className={styles.recipeTitlePlaceholder}>
                 <h2 className={styles.mainHeading}>{title}</h2>
                 <Image src={imgUrl} />
                 <Button onClick={this.onEditClick}>
-                  Edit recipe title
+                    Edit recipe title
                 </Button>
               </div>
-            ) : this.renderCreateRecipeForm()}
-        </Segment >
-        {(createRecipeResponse && !createRecipeLoading) || isCreating ? (
+            </Segment >
+          ) : this.renderCreateRecipeForm()}
+
+        {isCreating ? (
           <Grid>
             <Grid.Row stretched>
               <Grid.Column computer={10} tablet={8} mobile={16}>
@@ -176,7 +173,16 @@ class CreateRecipe extends React.Component {
                 <AdditionalInfoForm />
               </Grid.Column>
             </Grid.Row>
-          </Grid >
+            <div className={styles.reverseBox}>
+              <Button onClick={this.onEditClick} secondary>
+                <Icon name="save" />
+                Save new version
+              </Button>
+              <Button onClick={this.onEditClick} primary>
+                Show versions
+              </Button>
+            </div>
+          </Grid>
         ) : null}
       </Container>
     );
@@ -191,22 +197,21 @@ CreateRecipe.propTypes = {
 
 const mapStateToProps = ({ 
   currentRecipeData: { id, imgUrl, title, loading: fetchRecipeLoading }, 
-  createRecipeData: { response: createRecipeResponse, loading: createRecipeLoading },
-  editRecipeTitleData: { loading: editRecipeTitleLoading },
+  createRecipeData: { loading: createRecipeLoading },
+  editRecipeData: { loading: editRecipeLoading },
 }) => ({
   recipeId: id,
   title,
   imgUrl,
   createRecipeLoading,
-  createRecipeResponse,
-  editRecipeTitleLoading,
+  editRecipeLoading,
   fetchRecipeLoading
 });
 
 const mapDispatchToProps = {
   createRecipe,
   fetchRecipe,
-  editRecipeTitle
+  editRecipe
 };
 
 export default connect(

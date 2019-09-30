@@ -48,7 +48,7 @@ export const editRecipeTitle = async (request) => {
 export const editRecipe = async (request) => {
   const { recipeId } = request;
   const response = await callWebApi({
-    endpoint: `/api/posts/${recipeId}`,
+    endpoint: `/api/recipes/${recipeId}`,
     type: 'PUT',
     request
   });

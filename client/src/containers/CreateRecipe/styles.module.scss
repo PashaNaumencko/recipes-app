@@ -24,3 +24,11 @@
     align-items: center;
     min-height: 420px;
 }
+
+:local(.reverseBox) {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse; 
+    justify-content: space-between;
+    width: 100%;
+}

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -104,8 +106,7 @@ section {
 }
 
 body {
-  // font-family: 'PF Din Text Comp Pro Bold', sans-serif !important;
-  font-family: Tahoma, sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   color: #6c6c6c;
   line-height: 1;
   font-size: 16px !important;

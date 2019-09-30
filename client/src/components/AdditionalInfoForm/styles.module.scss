@@ -17,3 +17,19 @@
     width: initial !important;
     min-width: -webkit-fill-available !important;
 }
+
+:global(.ui.container .ui.statistics) {
+    justify-content: space-evenly;
+    :global(.ui.statistic .label) {
+        text-transform: capitalize;
+        font-size: 1.2em;
+        color: #767676;
+    }
+}
+
+:local(.ingrediens) {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 500;
+    word-break: break-all;
+}

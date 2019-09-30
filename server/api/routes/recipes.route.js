@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getRecipeById, getRecipeByTitle, createRecipeTitle, updateRecipeTitle } = require('../services/recipes.service');
+const { getRecipeById, getRecipeByTitle, createRecipeTitle, updateRecipe } = require('../services/recipes.service');
 
 const router = Router();
 
@@ -29,10 +29,10 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:recipeId', (req, res, next) => {
-  const imgFile = req.files.imgFile;
+  const imgFile = req.files ? req.files.imgFile : null;
   const { recipeId } = req.params;
-  const { title } = req.body;
-  updateRecipeTitle(recipeId, { title, imgFile })
+  console.log(req.body);
+  updateRecipe(recipeId, req.body, imgFile)
     .then(data => res.status(data.status).send({ message: data.message }))
     .catch(next)
 });
