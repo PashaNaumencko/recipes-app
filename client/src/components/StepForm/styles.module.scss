@@ -6,6 +6,11 @@
     color: #333333;
 }
 
+:global(.vertical-timeline) {
+    margin: 0;
+    padding: 0 0 2em 0;
+}
+
 :global(.vertical-timeline::before) {
     background: #2f3032;
     width: 2px;
@@ -23,10 +28,39 @@
 
 :global(.vertical-timeline-element-content.bounce-in) {
     box-shadow: none;
+    word-break: break-all;
+    &:hover {
+        :local(.closeButton) {
+            display: block;
+            cursor: pointer;
+        }
+        :local(.editButton) {
+            display: block;
+            cursor: pointer;
+        }
+    }
+
 }
 
 :global(.vertical-timeline-element-content.bounce-in p) {
     margin: 0;
-    font-weight: bold;
     // font-size: 1.1em;
+}
+
+:global(.ui.container .ui.primary.icon.button):local(.addStepButton) {
+    border-radius: 50%;
+}
+
+:local(.closeButton) {
+    position: absolute;
+    top: 0;
+    right: 2px;
+    display: none;
+}
+
+:local(.editButton) {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    display: none;
 }

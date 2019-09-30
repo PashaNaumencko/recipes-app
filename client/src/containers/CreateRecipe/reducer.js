@@ -10,6 +10,7 @@ const initialFetchRecipeState = {
   createdAt: '',
   updatedAt: '',
   previousVersion: null,
+  steps: null,
   loading: false,
   error: null
 };
@@ -101,5 +102,3 @@ export const currentRecipeData = (state = initialFetchRecipeState, action) => {
     return state;
   }
 };
-
-

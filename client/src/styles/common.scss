@@ -15,12 +15,20 @@ h2 {
 }
 
 
-.ui.container .ui.button {
+.ui.container .ui.primary.button {
     border-radius: 0;
     border: 1px solid #bbbbbb;
     font-weight: bold;
-    background: #ffffff;
-    color: #333333;
+    background: #2f3032;
+    color: #ffffff;
+}
+
+.ui.container .ui.secondary.button {
+    border-radius: 0;
+    border: 1px solid #bbbbbb;
+    font-weight: bold;
+    background: #2f3032;
+    color: #ffffff;
 }
 
 .ui.container .ui.segment {

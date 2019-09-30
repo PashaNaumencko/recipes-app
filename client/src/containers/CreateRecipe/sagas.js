@@ -23,8 +23,8 @@ function* createRecipeRequest({ payload }) {
   try {
     yield put(createRecipe.request());
     const createRecipeResponse = yield call(recipeService.addRecipe, payload);
-    const fetchRecipeResponse = yield call(recipeService.getRecipeByTitle, payload.title);
     yield put(createRecipe.success(createRecipeResponse));
+    const fetchRecipeResponse = yield call(recipeService.getRecipeByTitle, payload.title);
     yield put(fetchRecipe.success(fetchRecipeResponse));
   } catch (error) {
     yield put(createRecipe.failure(error.message));

@@ -3,9 +3,19 @@ const BaseRepository = require('./base.repository');
 const { RecipeModel, StepModel } = require('../models/index');
 
 class RecipeRepository extends BaseRepository {
-  getByTitle(title) {
+  findOne(where) {
     return this.model.findOne({ 
-      where: { title } 
+      where,
+      order: [[StepModel, 'createdAt', 'DESC']],
+      include: [
+        {
+          model: StepModel,
+        }, 
+        {
+          model: this.model,
+          as: 'previousVersions'
+        }
+      ]
     });
   }
 }

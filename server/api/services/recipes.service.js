@@ -3,9 +3,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 const serverUrl = process.env.SERVER_HOST;
 
-const getRecipeById = id => recipesRepository.getById(id);
+const getRecipeById = id => recipesRepository.findOne({ id });
 
-const getRecipeByTitle = title => recipesRepository.getByTitle(title);
+const getRecipeByTitle = title => recipesRepository.findOne({ title });
 
 const createRecipeTitle = async (title, imgFile) => {
   imgFile.mv('images/' + imgFile.name, (err) => {
@@ -14,7 +14,7 @@ const createRecipeTitle = async (title, imgFile) => {
     }
   });
 
-  recipesRepository.create({
+  await recipesRepository.create({
     title,
     imgUrl: `${serverUrl}/${imgFile.name}`
   });
@@ -29,7 +29,7 @@ const updateRecipeTitle = async (recipeId, { title, imgFile }) => {
     }
   });
   
-  recipesRepository.updateById(recipeId, {
+  await recipesRepository.updateById(recipeId, {
     title,
     imgUrl: `${serverUrl}/${imgFile.name}`
   });

@@ -36,7 +36,7 @@ class CreateRecipe extends React.Component {
   }
 
   componentDidMount() {
-    const { match: { params: { id } }, fetchRecipe } = this.props;
+    const { match: { params: { id } }, fetchRecipe, fetchRecipeLoading } = this.props;
     if (id) {
       fetchRecipe(id);
       this.setState({ isCreating: true });
@@ -122,35 +122,38 @@ class CreateRecipe extends React.Component {
 
   onCreateSubmit(values) {
     const { imgFile } = this.state;
+    // const { createRecipeResponse, createRecipeLoading } = this.props;
     this.props.createRecipe({ ...values, imgFile });
-    const { fetchRecipeLoading } = this.props;
-    if(!fetchRecipeLoading) {
-      this.setState({ isCreating: true, isEditing: false });
-    }
+    this.setState({ isCreating: true, isEditing: false });
   }
 
   onEditTitleSubmit(values) {
     const { imgFile } = this.state;
     const { recipeId } = this.props;
     this.props.editRecipeTitle({ ...values, recipeId, imgFile });
-    const { fetchRecipeLoading } = this.props;
-    if(!fetchRecipeLoading) {
+    const { editRecipeTitleLoading } = this.props;
+    if(!editRecipeTitleLoading) {
       this.setState({ isEditing: false });
     }
   }
 
   render() {
     const { isCreating, isEditing } = this.state;
-    const { imgUrl, title, createRecipeLoading, fetchRecipeLoading, editRecipeTitleLoading } = this.props;
-    return fetchRecipeLoading ? (
-      <Container>
-        <Segment basic loading></Segment>
-      </Container>
-    ) : (
+    const { 
+      imgUrl, 
+      title, 
+      createRecipeLoading, 
+      createRecipeResponse,
+      fetchRecipeLoading, 
+      editRecipeTitleLoading 
+    } = this.props;
+    
+    console.log(createRecipeResponse, !createRecipeLoading);
+    return (
       <Container>
         <Segment>
-          {createRecipeLoading || editRecipeTitleLoading ? (
-            <Segment basic loading></Segment>
+          {createRecipeLoading || editRecipeTitleLoading || fetchRecipeLoading ? (
+            <Segment loading></Segment>
           ) : isEditing ? 
             this.renderCreateRecipeForm() 
             : isCreating ? (
@@ -163,14 +166,16 @@ class CreateRecipe extends React.Component {
               </div>
             ) : this.renderCreateRecipeForm()}
         </Segment >
-        {isCreating ? (
+        {(createRecipeResponse && !createRecipeLoading) || isCreating ? (
           <Grid>
-            <Grid.Column computer={10} tablet={8} mobile={16}>
-              <StepForm />
-            </Grid.Column>
-            <Grid.Column computer={6} tablet={8} mobile={16}>
-              <AdditionalInfoForm />
-            </Grid.Column>
+            <Grid.Row stretched>
+              <Grid.Column computer={10} tablet={8} mobile={16}>
+                <StepForm />
+              </Grid.Column>
+              <Grid.Column computer={6} tablet={8} mobile={16}>
+                <AdditionalInfoForm />
+              </Grid.Column>
+            </Grid.Row>
           </Grid >
         ) : null}
       </Container>
@@ -186,13 +191,14 @@ CreateRecipe.propTypes = {
 
 const mapStateToProps = ({ 
   currentRecipeData: { id, imgUrl, title, loading: fetchRecipeLoading }, 
-  createRecipeData: { loading: createRecipeLoading },
+  createRecipeData: { response: createRecipeResponse, loading: createRecipeLoading },
   editRecipeTitleData: { loading: editRecipeTitleLoading },
 }) => ({
   recipeId: id,
   title,
   imgUrl,
   createRecipeLoading,
+  createRecipeResponse,
   editRecipeTitleLoading,
   fetchRecipeLoading
 });
