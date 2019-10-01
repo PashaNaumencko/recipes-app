@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Button, Icon, Statistic,Form as UIForm } from 'semantic-ui-react';
+import AdditionalInfo from '../AdditionalInfo/index';
 import { editRecipe } from '../../routines/routines';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -154,22 +155,7 @@ class AdditionalInfoForm extends React.Component {
               <h2>Additional info</h2>
               {calorificValue && ingredients && duration ? (
             <>
-              <Statistic.Group>
-                <Statistic>
-                  <Statistic.Value>
-                    <Icon name='clock outline' color="grey" />
-                  </Statistic.Value>
-                  <Statistic.Label>{duration}</Statistic.Label>
-                </Statistic>
-                <Statistic>
-                  <Statistic.Value>
-                    <Icon name='utensils' color="grey" />
-                  </Statistic.Value>
-                  <Statistic.Label>{calorificValue} ccal</Statistic.Label>
-                </Statistic>
-              </Statistic.Group>
-              <h2>Ingridiens</h2>
-              <p className={styles.ingrediens}>{ingredients}</p>
+              <AdditionalInfo calorificValue={calorificValue} ingredients={ingredients} duration={duration} />
               <Button onClick={this.onEditClick}>
                 <Icon name="edit" />
                 Edit

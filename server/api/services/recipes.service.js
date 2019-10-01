@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 const serverUrl = process.env.SERVER_HOST;
 
+const getAllRecipes = () => recipesRepository.getAll();
+
 const getRecipeById = id => recipesRepository.findOne({ id });
 
 const getRecipeByTitle = title => recipesRepository.findOne({ title });
@@ -50,6 +52,7 @@ const saveRecipeVersion = async (body) => {
 }
 
 module.exports = {
+  getAllRecipes,
   getRecipeById,
   getRecipeByTitle,
   createRecipeTitle,

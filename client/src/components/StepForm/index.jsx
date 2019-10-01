@@ -13,7 +13,6 @@ import styles from './styles.module.scss';
 const StepSchema = Yup.object().shape({
   description: Yup.string()
     .min(2, 'Minimum length - 2 characters')
-    .max(255, 'Maximum length - 255 characters')
     .required('Required')
 });
 
@@ -123,7 +122,7 @@ class StepForm extends React.Component {
         ? <Segment loading></Segment> 
         : (
           <Segment>
-            <h2 className={styles.mainHeading}>Recipe steps</h2>
+            <h2>Recipe steps</h2>
             {steps && steps.length ? (
               <>
                 <VerticalTimeline layout="1-column">

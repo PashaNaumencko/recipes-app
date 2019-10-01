@@ -9,7 +9,9 @@ const initialFetchRecipeState = {
   duration: '',
   createdAt: '',
   updatedAt: '',
+  previousVersionId: '',
   previousVersion: null,
+  previousVersions: [],
   steps: null,
   loading: false,
   error: null

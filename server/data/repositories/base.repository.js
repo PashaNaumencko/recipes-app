@@ -4,7 +4,9 @@ class BaseRepository {
   }
 
   getAll() {
-    return this.model.findAll();
+    return this.model.findAll({
+      order: [[this.model, 'createdAt', 'DESC']]
+    });
   }
 
   findOne({ where }) {

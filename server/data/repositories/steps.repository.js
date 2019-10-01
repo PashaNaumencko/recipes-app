@@ -1,6 +1,6 @@
 const BaseRepository = require('./base.repository');
 
-const { RecipeModel, StepModel } = require('../models/index');
+const { StepModel } = require('../models/index');
 
 class StepRepository extends BaseRepository {
   getByRecipeId(recipeId) {

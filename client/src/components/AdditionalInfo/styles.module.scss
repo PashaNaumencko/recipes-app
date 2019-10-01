@@ -1,0 +1,19 @@
+:local(.addInfoBox) {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    width: 100%;
+    :global(.ui.statistic .label) {
+        text-transform: capitalize;
+        font-size: 1.2em;
+        color: #767676;
+    }
+}
+
+:local(.ingrediens) {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 500;
+    word-break: break-all;
+}
+

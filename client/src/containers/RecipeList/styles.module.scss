@@ -1,6 +1,6 @@
 :local(.recipeListHeader) {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: center;
     align-items: center;
     margin-bottom: 15px;
 }
@@ -16,19 +16,20 @@
         text-align: center;
     }
     p {
+        word-break: break-word;
         text-align: center;
         font-weight: 400;
         line-height: 1.03em;
-        text-overflow: ellipsis;
     }
 }
 
-:local(.recipeListBox) {
+:global(.ui.container .ui.segment):local(.recipeListBox) {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
     border: 2px solid #f2f2f2;
+    margin: 0;
+    padding: 0;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px;
 }
 
@@ -60,4 +61,8 @@
     padding: 12px;
     color: #cccccc;
     border-top: 2px solid #f2f2f2;
+}
+
+:global(.ui.container .ui.fluid.image):local(.recipeImg) {
+    margin: 0;
 }

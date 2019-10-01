@@ -29,9 +29,9 @@
     box-shadow: none;
 }
 
-:global(.vertical-timeline-element-content.bounce-in) {
+:global(.ui.container .vertical-timeline-element-content.bounce-in) {
     box-shadow: none;
-    word-break: break-all;
+    word-break: break-word;
     &:hover {
         :local(.closeButton) {
             display: block;

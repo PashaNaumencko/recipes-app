@@ -1,4 +1,3 @@
-const db = require('./connection');
 module.exports = (models) => {
   const { Recipe, Step } = models;
 

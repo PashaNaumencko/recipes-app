@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { 
+  getAllRecipes,
   getRecipeById, 
   getRecipeByTitle, 
   createRecipeTitle, 
@@ -9,6 +10,12 @@ const {
 } = require('../services/recipes.service');
 
 const router = Router();
+
+router.get('/', (req, res, next) => {
+  getAllRecipes()
+    .then(data => res.send(data))
+    .catch(next)
+});
 
 router.get('/:recipeId', (req, res, next) => {
   const { recipeId } = req.params;

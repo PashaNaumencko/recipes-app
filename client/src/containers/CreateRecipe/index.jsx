@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Grid, Segment, Button, Image, Loader, Icon, Form as UIForm } from 'semantic-ui-react';
+import { Container, Grid, Segment, Button, Image, Icon, Form as UIForm } from 'semantic-ui-react';
 import StepForm from '../../components/StepForm/index';
 import AdditionalInfoForm from '../../components/AdditionalInfoForm/index';
+import RecipeVersions from '../../components/RecipeVersions/index';
 import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines/routines';
 import * as recipeService from '../../services/recipeService';
 import ImageUploader from 'react-images-upload';
@@ -27,6 +28,7 @@ class CreateRecipe extends React.Component {
       imgFile: null,
       isCreating: false,
       isEditing: false,
+      isShowing: false,
       versionLoading: false
     };
 
@@ -35,7 +37,8 @@ class CreateRecipe extends React.Component {
     this.onImageChange = this.onImageChange.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
-    this.onOnSaveVersionClick = this.onOnSaveVersionClick.bind(this);
+    this.onSaveVersionClick = this.onSaveVersionClick.bind(this);
+    this.onShowVersionClick = this.onShowVersionClick.bind(this);
   }
 
   componentDidMount() {
@@ -122,31 +125,38 @@ class CreateRecipe extends React.Component {
     this.setState({ isEditing: false });
   }
 
-  onOnSaveVersionClick() {
+  onShowVersionClick() {
+    this.setState((prevState) => ({ isShowing: !prevState.isShowing }));
+  }
+
+  onSaveVersionClick() {
     this.setState({ versionLoading: true });
     const { 
       recipeId,
       title,
       imgUrl,
-      steps,  
+      steps,
       calorificValue, 
       duration, 
       ingredients,
-      fetchRecipe
+      fetchRecipe,
+      previousVersions
     } = this.props;
+    console.log(previousVersions.find(version => version.previousVersionId).id);
+    const id = previousVersions.length 
+      ? previousVersions.find(version => version.previousVersionId).id
+      : recipeId;
     recipeService.saveRecipeVersion({ 
-      previousVersionId: recipeId,
+      previousVersionId: id,
       title,
       imgUrl,
-      steps,  
+      steps,
       calorificValue, 
       duration, 
       ingredients 
-    }).then(res => this.setState({ versionLoading: false }));
+    }).then(res => this.setState({ versionLoading: false, isShowing: false }));
     fetchRecipe(recipeId);
   }
-
-
 
   onCreateSubmit(values) {
     const { imgFile } = this.state;
@@ -164,13 +174,18 @@ class CreateRecipe extends React.Component {
   }
 
   render() {
-    const { isCreating, isEditing, versionLoading } = this.state;
+    const { isCreating, isEditing, versionLoading, isShowing } = this.state;
     const { 
       imgUrl, 
       title, 
+      steps,
+      calorificValue, 
+      duration, 
+      ingredients,
       createRecipeLoading, 
       fetchRecipeLoading, 
-      editRecipeLoading 
+      editRecipeLoading,
+      previousVersions
     } = this.props;
     
     return (
@@ -202,16 +217,39 @@ class CreateRecipe extends React.Component {
               </Grid.Column>
             </Grid.Row>
             <div className={styles.reverseBox}>
-              <Button onClick={this.onOnSaveVersionClick} secondary>
+              <Button 
+                onClick={this.onSaveVersionClick} 
+                secondary
+                disabled={!(
+                  imgUrl 
+                  && title 
+                  && steps.length 
+                  && calorificValue 
+                  && duration 
+                  && ingredients
+                )}
+              >
                 <Icon name="save" />
                 Save new version
               </Button>
-              <Button onClick={this.onEditClick} primary>
-                Show versions
+
+              <Button 
+                onClick={this.onShowVersionClick} 
+                primary={!isShowing}
+                secondary={isShowing}
+                disabled={!previousVersions.length}
+              >
+                {isShowing ? 'Hide versions' : 'Show versions'}
               </Button>
             </div>
           </Grid>
         ) : null}
+        {isShowing ? (
+          <Segment>
+            <RecipeVersions versions={previousVersions} />
+          </Segment>
+        ) : null}
+
       </Container>
     );
   }
@@ -224,7 +262,18 @@ CreateRecipe.propTypes = {
 };
 
 const mapStateToProps = ({ 
-  currentRecipeData: { id, imgUrl, title, steps,  calorificValue, duration, ingredients, loading: fetchRecipeLoading }, 
+  currentRecipeData: { 
+    id, 
+    imgUrl, 
+    title, 
+    steps, 
+    calorificValue, 
+    duration, 
+    ingredients, 
+    previousVersions, 
+    previousVersionId, 
+    loading: fetchRecipeLoading 
+  }, 
   createRecipeData: { loading: createRecipeLoading },
   editRecipeTitleData: { loading: editRecipeLoading },
 }) => ({
@@ -235,6 +284,8 @@ const mapStateToProps = ({
   calorificValue, 
   duration, 
   ingredients,
+  previousVersions,
+  previousVersionId,
   createRecipeLoading,
   editRecipeLoading,
   fetchRecipeLoading
