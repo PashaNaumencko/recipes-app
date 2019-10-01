@@ -5,17 +5,8 @@ import { Segment, Button, Icon, Form as UIForm } from 'semantic-ui-react';
 import AdditionalInfo from '../AdditionalInfo/index';
 import { editRecipe } from '../../routines/routines';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 
 import './styles.module.scss';
-
-const AdditionInfoSchema = Yup.object().shape({
-  calorificValue: Yup.number()
-    .required('Required'),
-  duration: Yup.string()
-    .required('Required')
-});
-
 class AdditionalInfoForm extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +38,6 @@ class AdditionalInfoForm extends React.Component {
   }
 
   onDropDownChange(event, { value }) {
-    console.log(value);
     this.setState({ currentValues: value });
   }
 
@@ -88,7 +78,6 @@ class AdditionalInfoForm extends React.Component {
   }
 
   onEditSubmit(values) {
-    console.log(values, 'values');
     const { recipeId } = this.props;
     const { currentValues } = this.state;
     this.props.editRecipe({...values, recipeId, ingredients: currentValues.join(',')});
@@ -106,7 +95,6 @@ class AdditionalInfoForm extends React.Component {
           duration,
           ingredients: ingValueArray
         }}
-        validationSchema={AdditionInfoSchema}
         onSubmit={this.onEditSubmit}
       >
         {({ errors, touched, values }) => (
@@ -141,7 +129,6 @@ class AdditionalInfoForm extends React.Component {
   render() {
     const { calorificValue, ingredients, duration, editRecipeLoading, fetchRecipeLoading, versionLoading } = this.props;
     const{ ingredientsArray, isEditing } = this.state;
-    console.log(ingredientsArray);
     return fetchRecipeLoading || versionLoading
       ? null : editRecipeLoading 
         ? <Segment loading></Segment> 

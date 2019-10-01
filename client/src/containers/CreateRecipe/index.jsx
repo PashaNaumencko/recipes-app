@@ -5,7 +5,7 @@ import { Container, Grid, Segment, Button, Image, Icon, Form as UIForm } from 's
 import StepForm from '../../components/StepForm/index';
 import AdditionalInfoForm from '../../components/AdditionalInfoForm/index';
 import RecipeVersions from '../../components/RecipeVersions/index';
-import { createRecipe, fetchRecipe, editRecipeTitle, fetchAllRecipes } from '../../routines/routines';
+import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines/routines';
 import * as recipeService from '../../services/recipeService';
 import ImageUploader from 'react-images-upload';
 
