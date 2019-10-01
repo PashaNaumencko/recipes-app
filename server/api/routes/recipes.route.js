@@ -1,5 +1,12 @@
 const { Router } = require('express');
-const { getRecipeById, getRecipeByTitle, createRecipeTitle, updateRecipe } = require('../services/recipes.service');
+const { 
+  getRecipeById, 
+  getRecipeByTitle, 
+  createRecipeTitle, 
+  updateRecipeTitle, 
+  updateRecipe, 
+  saveRecipeVersion 
+} = require('../services/recipes.service');
 
 const router = Router();
 
@@ -28,11 +35,24 @@ router.post('/', (req, res, next) => {
     .catch(next)
 });
 
-router.put('/:recipeId', (req, res, next) => {
-  const imgFile = req.files ? req.files.imgFile : null;
+router.put('/title/:recipeId', (req, res, next) => {
+  const { imgFile } = req.files;
   const { recipeId } = req.params;
-  console.log(req.body);
-  updateRecipe(recipeId, req.body, imgFile)
+  const { title } = req.body;
+  updateRecipeTitle(recipeId, { title, imgFile })
+    .then(data => res.status(data.status).send({ message: data.message }))
+    .catch(next)
+});
+
+router.put('/:recipeId', (req, res, next) => {
+  const { recipeId } = req.params;
+  updateRecipe(recipeId, req.body)
+    .then(data => res.status(data.status).send({ message: data.message }))
+    .catch(next)
+});
+
+router.post('/save', (req, res, next) => {
+  saveRecipeVersion(req.body)
     .then(data => res.status(data.status).send({ message: data.message }))
     .catch(next)
 });

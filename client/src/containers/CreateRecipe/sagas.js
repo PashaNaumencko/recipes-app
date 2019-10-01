@@ -1,6 +1,6 @@
 import { takeEvery, put, call, all, select } from 'redux-saga/effects';
 import * as recipeService from '../../services/recipeService';
-import { fetchRecipe, createRecipe, editRecipe } from '../../routines/routines';
+import { fetchRecipe, createRecipe, editRecipe, editRecipeTitle } from '../../routines/routines';
 
 function* recipeRequest({ payload: recipeId }) {
   try {
@@ -39,6 +39,25 @@ function* watchCreateRecipeRequest() {
   yield takeEvery(createRecipe.TRIGGER, createRecipeRequest);
 }
 
+function* editRecipeTitleRequest({ payload }) {
+  try {
+    yield put(editRecipeTitle.request());
+    const editRecipeResponse = yield call(recipeService.editRecipeTitle, payload);
+    yield put(editRecipeTitle.success(editRecipeResponse));
+    const { currentRecipeData: { id: recipeId } } = yield select();
+    const fetchRecipeResponse = yield call(recipeService.getRecipeById, recipeId);
+    yield put(fetchRecipe.success(fetchRecipeResponse));
+  } catch (error) {
+    yield put(editRecipeTitle.failure(error.message));
+  } finally {
+    yield put(editRecipeTitle.fulfill());
+  }
+}
+
+function* watchEditRecipeTitleRequest() {
+  yield takeEvery(editRecipeTitle.TRIGGER, editRecipeTitleRequest);
+}
+
 function* editRecipeRequest({ payload }) {
   try {
     yield put(editRecipe.request());
@@ -59,5 +78,5 @@ function* watchEditRecipeRequest() {
 }
 
 export default function* createRecipePageSagas() {
-  yield all([watchRecipeRequest(), watchCreateRecipeRequest(), watchEditRecipeRequest()]);
+  yield all([watchRecipeRequest(), watchCreateRecipeRequest(), watchEditRecipeTitleRequest(), watchEditRecipeRequest()]);
 }

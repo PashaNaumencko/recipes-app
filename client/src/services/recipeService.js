@@ -37,7 +37,7 @@ export const addRecipe = async (request) => {
 export const editRecipeTitle = async (request) => {
   const { recipeId } = request;
   const response = await callWebApi({
-    endpoint: `/api/recipes/${recipeId}`,
+    endpoint: `/api/recipes/title/${recipeId}`,
     type: 'PUT',
     attachment: true,
     request
@@ -50,6 +50,15 @@ export const editRecipe = async (request) => {
   const response = await callWebApi({
     endpoint: `/api/recipes/${recipeId}`,
     type: 'PUT',
+    request
+  });
+  return response.json();
+};
+
+export const saveRecipeVersion = async (request) => {
+  const response = await callWebApi({
+    endpoint: '/api/recipes/save',
+    type: 'POST',
     request
   });
   return response.json();

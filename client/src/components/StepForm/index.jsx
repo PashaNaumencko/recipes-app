@@ -115,14 +115,16 @@ class StepForm extends React.Component {
       fetchRecipeLoading,
       addRecipeStepLoading,
       editRecipeStepLoading,
-      deleteRecipeStepLoading
+      deleteRecipeStepLoading,
+      versionLoading
     } = this.props;
-    return fetchRecipeLoading || addRecipeStepLoading || editRecipeStepLoading || deleteRecipeStepLoading 
-      ? <Segment loading></Segment> 
-      : (
-        <Segment>
-          <h2 className={styles.mainHeading}>Recipe steps</h2>
-          {steps && steps.length ? (
+    return fetchRecipeLoading || versionLoading
+      ? null : addRecipeStepLoading || editRecipeStepLoading || deleteRecipeStepLoading 
+        ? <Segment loading></Segment> 
+        : (
+          <Segment>
+            <h2 className={styles.mainHeading}>Recipe steps</h2>
+            {steps && steps.length ? (
               <>
                 <VerticalTimeline layout="1-column">
                   {steps.map((step, idx) => (
@@ -153,15 +155,15 @@ class StepForm extends React.Component {
                   </Button>
                 )}
               </>
-          ) : (
-            <VerticalTimeline layout="1-column">
-              <VerticalTimelineElement icon={1}>
-                {this.renderStepForm()}
-              </VerticalTimelineElement>
-            </VerticalTimeline>
-          )}
-        </Segment>
-      );
+            ) : (
+              <VerticalTimeline layout="1-column">
+                <VerticalTimelineElement icon={1}>
+                  {this.renderStepForm()}
+                </VerticalTimelineElement>
+              </VerticalTimeline>
+            )}
+          </Segment>
+        );
   }
 
 }

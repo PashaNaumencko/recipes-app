@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       imgUrl: DataTypes.STRING,
       ingredients: DataTypes.TEXT,
       duration: DataTypes.STRING,
-      calorificValue: DataTypes.INTEGER
+      calorificValue: DataTypes.INTEGER,
+      previousVersionId: DataTypes.UUID
     },
     {
       timestamps: true

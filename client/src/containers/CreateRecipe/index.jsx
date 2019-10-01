@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { Container, Grid, Segment, Button, Image, Loader, Icon, Form as UIForm } from 'semantic-ui-react';
 import StepForm from '../../components/StepForm/index';
 import AdditionalInfoForm from '../../components/AdditionalInfoForm/index';
-import { createRecipe, fetchRecipe, editRecipe } from '../../routines/routines';
+import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines/routines';
+import * as recipeService from '../../services/recipeService';
 import ImageUploader from 'react-images-upload';
 
 import { Formik, Form, Field } from 'formik';
@@ -25,7 +26,8 @@ class CreateRecipe extends React.Component {
     this.state = {
       imgFile: null,
       isCreating: false,
-      isEditing: false
+      isEditing: false,
+      versionLoading: false
     };
 
     this.onCreateSubmit = this.onCreateSubmit.bind(this);
@@ -33,6 +35,7 @@ class CreateRecipe extends React.Component {
     this.onImageChange = this.onImageChange.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
+    this.onOnSaveVersionClick = this.onOnSaveVersionClick.bind(this);
   }
 
   componentDidMount() {
@@ -119,6 +122,31 @@ class CreateRecipe extends React.Component {
     this.setState({ isEditing: false });
   }
 
+  onOnSaveVersionClick() {
+    this.setState({ versionLoading: true });
+    const { 
+      recipeId,
+      title,
+      imgUrl,
+      steps,  
+      calorificValue, 
+      duration, 
+      ingredients,
+      fetchRecipe
+    } = this.props;
+    recipeService.saveRecipeVersion({ 
+      previousVersionId: recipeId,
+      title,
+      imgUrl,
+      steps,  
+      calorificValue, 
+      duration, 
+      ingredients 
+    }).then(res => this.setState({ versionLoading: false }));
+    fetchRecipe(recipeId);
+  }
+
+
 
   onCreateSubmit(values) {
     const { imgFile } = this.state;
@@ -131,12 +159,12 @@ class CreateRecipe extends React.Component {
   onEditSubmit(values) {
     const { imgFile } = this.state;
     const { recipeId } = this.props;
-    this.props.editRecipe({ ...values, recipeId, imgFile });
+    this.props.editRecipeTitle({ ...values, recipeId, imgFile });
     this.setState({ isEditing: false });
   }
 
   render() {
-    const { isCreating, isEditing } = this.state;
+    const { isCreating, isEditing, versionLoading } = this.state;
     const { 
       imgUrl, 
       title, 
@@ -147,7 +175,7 @@ class CreateRecipe extends React.Component {
     
     return (
       <Container>
-        {createRecipeLoading || fetchRecipeLoading || editRecipeLoading ? (
+        {fetchRecipeLoading || versionLoading || createRecipeLoading || editRecipeLoading  ? (
           <Segment loading></Segment>
         ) : isEditing ? 
           this.renderCreateRecipeForm() 
@@ -167,14 +195,14 @@ class CreateRecipe extends React.Component {
           <Grid>
             <Grid.Row stretched>
               <Grid.Column computer={10} tablet={8} mobile={16}>
-                <StepForm />
+                <StepForm versionLoading={versionLoading} />
               </Grid.Column>
               <Grid.Column computer={6} tablet={8} mobile={16}>
-                <AdditionalInfoForm />
+                <AdditionalInfoForm versionLoading={versionLoading} />
               </Grid.Column>
             </Grid.Row>
             <div className={styles.reverseBox}>
-              <Button onClick={this.onEditClick} secondary>
+              <Button onClick={this.onOnSaveVersionClick} secondary>
                 <Icon name="save" />
                 Save new version
               </Button>
@@ -196,13 +224,17 @@ CreateRecipe.propTypes = {
 };
 
 const mapStateToProps = ({ 
-  currentRecipeData: { id, imgUrl, title, loading: fetchRecipeLoading }, 
+  currentRecipeData: { id, imgUrl, title, steps,  calorificValue, duration, ingredients, loading: fetchRecipeLoading }, 
   createRecipeData: { loading: createRecipeLoading },
-  editRecipeData: { loading: editRecipeLoading },
+  editRecipeTitleData: { loading: editRecipeLoading },
 }) => ({
   recipeId: id,
   title,
   imgUrl,
+  steps,  
+  calorificValue, 
+  duration, 
+  ingredients,
   createRecipeLoading,
   editRecipeLoading,
   fetchRecipeLoading
@@ -211,7 +243,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   createRecipe,
   fetchRecipe,
-  editRecipe
+  editRecipeTitle
 };
 
 export default connect(

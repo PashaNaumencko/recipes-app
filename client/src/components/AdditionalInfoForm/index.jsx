@@ -9,24 +9,28 @@ import * as Yup from 'yup';
 import styles from './styles.module.scss';
 
 const AdditionInfoSchema = Yup.object().shape({
-  // title: Yup.string()
-  //   .min(2, 'Minimum length - 2 characters')
-  //   .max(255, 'Maximum length - 255 characters')
-  //   .required('Required')
+  calorificValue: Yup.number()
+    .required('Required'),
+  duration: Yup.string()
+    .required('Required')
 });
 
 class AdditionalInfoForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredientsArray: this.props.ingredients.trim().split('\n').filter(Boolean).map(ing => ({ text: ing, value: ing })),
+      ingredientsArray: [],
+      currentValues: {},
       isEditing: false
     };
 
     this.onEditSubmit = this.onEditSubmit.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
+    this.onDropDownChange = this.onDropDownChange.bind(this);
   }
+
+  
 
   onIngredientAddition = (event, { value }) => this.setState({
     ingredientsArray: [...this.state.ingredientsArray.filter(ing => ing.value !== value), { text: value, value }]
@@ -41,18 +45,16 @@ class AdditionalInfoForm extends React.Component {
     }
   }
 
-  renderDropdownField = ({ field, form: { errors } }) => {
-    if (field.value === null) {
-      field.value = '';
-    } 
+  onDropDownChange(event, { value }) {
+    console.log(value);
+    this.setState({ currentValues: value });
+  }
 
-    const { ingredientsArray } = this.state;
-    const ingValueArray = ingredientsArray.map(ing => ing);
-    console.log(ingValueArray);
+  renderDropdownField = ({ field, form: { errors } }) => {
+    const { ingredientsArray, currentValues } = this.state;
 
     return (
       <UIForm.Dropdown
-        error={errors[field.name] ? { content: errors[field.name], pointing: 'left' } : null}
         noResultsMessage="Enter new ingrediens and press Enter."
         fluid 
         multiple 
@@ -61,17 +63,23 @@ class AdditionalInfoForm extends React.Component {
         selection 
         allowAdditions
         compact
-        // value={ingValueArray}
+        value={currentValues}
         options={ingredientsArray}
         onKeyDown={this.onDropdownKeyDown}
         onAddItem={this.onIngredientAddition}
-        // {...field} 
+        onChange={this.onDropDownChange}
       />
     );
   }
 
   onEditClick() {
-    this.setState({ isEditing: true });
+    const { ingredients } = this.props;
+    const ingredientsArray = ingredients.split(',').filter(Boolean);
+    this.setState({ 
+      isEditing: true,
+      ingredientsArray: ingredientsArray.map(ing => ({ text: ing, value: ing })),
+      currentValues: ingredientsArray
+    });
   }
 
   onCancelClick() {
@@ -79,22 +87,23 @@ class AdditionalInfoForm extends React.Component {
   }
 
   onEditSubmit(values) {
-    console.log(values);
+    console.log(values, 'values');
     const { recipeId } = this.props;
-    const { ingredientsArray } = this.state;
-    this.props.editRecipe({...values, recipeId, ingredients: ingredientsArray.map(ing => ing.value).join(',')});
+    const { currentValues } = this.state;
+    this.props.editRecipe({...values, recipeId, ingredients: currentValues.join(',')});
     this.setState({ isEditing: false });
   }
 
   renderAdditionalInfoForm() {
-    const { calorificValue = '', duration } = this.props;
-    const{ isEditing } = this.state;
+    const { calorificValue, duration } = this.props;
+    const{ isEditing, ingredientsArray } = this.state;
+    const ingValueArray = ingredientsArray.map(ing => ing);
     return (
       <Formik
         initialValues={{
           calorificValue,
           duration,
-          ingredients: ''
+          ingredients: ingValueArray
         }}
         validationSchema={AdditionInfoSchema}
         onSubmit={this.onEditSubmit}
@@ -111,7 +120,7 @@ class AdditionalInfoForm extends React.Component {
             </UIForm.Field>
             <UIForm.Field required>
               <label>Ingredients</label>
-              <Field name="ingredients" type="text" placeholder="Enter ingredients" render={this.renderDropdownField} />
+              <Field name="ingredients"  render={this.renderDropdownField} />
             </UIForm.Field>
             <Button type="submit"> 
               <Icon name="save" />
@@ -129,20 +138,21 @@ class AdditionalInfoForm extends React.Component {
   }
 
   render() {
-    const { calorificValue, ingredients, duration, editRecipeLoading } = this.props;
+    const { calorificValue, ingredients, duration, editRecipeLoading, fetchRecipeLoading, versionLoading } = this.props;
     const{ ingredientsArray, isEditing } = this.state;
     console.log(ingredientsArray);
-    return editRecipeLoading 
-      ? <Segment loading></Segment> 
-      : isEditing 
-        ? (
-          <Segment>
-            {this.renderAdditionalInfoForm()} 
-          </Segment> 
-        ) : (
-          <Segment>
-            <h2>Additional info</h2>
-            {calorificValue && ingredients && duration ? (
+    return fetchRecipeLoading || versionLoading
+      ? null : editRecipeLoading 
+        ? <Segment loading></Segment> 
+        : isEditing 
+          ? (
+            <Segment>
+              {this.renderAdditionalInfoForm()} 
+            </Segment> 
+          ) : (
+            <Segment>
+              <h2>Additional info</h2>
+              {calorificValue && ingredients && duration ? (
             <>
               <Statistic.Group>
                 <Statistic>
@@ -165,9 +175,9 @@ class AdditionalInfoForm extends React.Component {
                 Edit
               </Button>
             </>
-            ) : this.renderAdditionalInfoForm()}
-          </Segment>
-        );
+              ) : this.renderAdditionalInfoForm()}
+            </Segment>
+          );
   }
 
 }

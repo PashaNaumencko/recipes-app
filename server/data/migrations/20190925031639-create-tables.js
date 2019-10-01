@@ -11,8 +11,7 @@ module.exports = {
           defaultValue: Sequelize.literal('gen_random_uuid()')
         },
         title: {
-          type: Sequelize.STRING,
-          unique: true
+          type: Sequelize.STRING
         },
         imgUrl: {
           type: Sequelize.STRING

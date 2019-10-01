@@ -3,7 +3,7 @@ import { Container, Divider } from 'semantic-ui-react';
 import BayLeaf from '../../styles/assets/images/bay-leaf.png';
 
 
-const Header = () => (
+const Footer = () => (
   <Container>
     <Divider horizontal>
       <img src={BayLeaf} />
@@ -11,4 +11,4 @@ const Header = () => (
   </Container>
 );
 
-export default Header;
+export default Footer;
