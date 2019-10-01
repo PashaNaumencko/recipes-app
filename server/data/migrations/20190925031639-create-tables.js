@@ -22,6 +22,9 @@ module.exports = {
         previousVersionId: {
           type: Sequelize.UUID
         },
+        rootVersionId: {
+          type: Sequelize.UUID
+        },
         calorificValue: {
           type: Sequelize.INTEGER
         },

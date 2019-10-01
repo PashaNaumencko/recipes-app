@@ -16,7 +16,6 @@ router.get('/:recipeId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => { 
-  console.log(req.body);
   addRecipeStep(req.body)
     .then(data => res.status(data.status).send({ message: data.message }))
     .catch(next)

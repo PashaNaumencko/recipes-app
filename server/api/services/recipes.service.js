@@ -5,12 +5,14 @@ const serverUrl = process.env.SERVER_HOST;
 
 const getAllRecipes = () => recipesRepository.getAll();
 
+const getAllVersions = id => recipesRepository.getAllVersions(id);
+
 const getRecipeById = id => recipesRepository.findOne({ id });
 
 const getRecipeByTitle = title => recipesRepository.findOne({ title });
 
 const createRecipeTitle = async (title, imgFile) => {
-  let imgUrl = 'http://thecrites.com/sites/all/modules/cookbook/theme/images/default-recipe-big.png';
+  let imgUrl = 'https://gorving.com/_assets/_images/recipes/recipe-default@2x.png';
   if(imgFile) {
     imgFile.mv('images/' + imgFile.name, (err) => {
       if (err) {
@@ -29,7 +31,7 @@ const createRecipeTitle = async (title, imgFile) => {
 };
 
 const updateRecipeTitle = async (recipeId, { title, imgFile }) => {
-  let imgUrl = 'http://thecrites.com/sites/all/modules/cookbook/theme/images/default-recipe-big.png';
+  let imgUrl = 'https://gorving.com/_assets/_images/recipes/recipe-default@2x.png';
   if(imgFile) {
     imgFile.mv('images/' + imgFile.name, (err) => {
       if (err) {
@@ -55,12 +57,13 @@ const updateRecipe = async (recipeId, body) => {
 
 const saveRecipeVersion = async (body) => {
   await recipesRepository.create(body);
-  
+
   return { status: 201, message: 'Recipe version saved' };
 }
 
 module.exports = {
   getAllRecipes,
+  getAllVersions,
   getRecipeById,
   getRecipeByTitle,
   createRecipeTitle,

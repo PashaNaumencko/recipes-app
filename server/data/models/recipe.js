@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       ingredients: DataTypes.TEXT,
       duration: DataTypes.STRING,
       calorificValue: DataTypes.INTEGER,
-      previousVersionId: DataTypes.UUID
+      previousVersionId: DataTypes.UUID,
+      rootVersionId: DataTypes.UUID
     },
     {
       timestamps: true

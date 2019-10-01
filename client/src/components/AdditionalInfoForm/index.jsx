@@ -109,7 +109,7 @@ class AdditionalInfoForm extends React.Component {
         validationSchema={AdditionInfoSchema}
         onSubmit={this.onEditSubmit}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, values }) => (
           <Form className="ui form">
             <UIForm.Field required>
               <label>Calorific value</label>
@@ -123,7 +123,7 @@ class AdditionalInfoForm extends React.Component {
               <label>Ingredients</label>
               <Field name="ingredients"  render={this.renderDropdownField} />
             </UIForm.Field>
-            <Button type="submit"> 
+            <Button type="submit" disabled={!values.calorificValue || !values.duration || ingredientsArray.length === 0} > 
               <Icon name="save" />
               Save
             </Button>

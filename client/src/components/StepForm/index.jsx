@@ -10,12 +10,6 @@ import * as Yup from 'yup';
 
 import styles from './styles.module.scss';
 
-const StepSchema = Yup.object().shape({
-  description: Yup.string()
-    .min(2, 'Minimum length - 2 characters')
-    .required('Required')
-});
-
 class StepForm extends React.Component {
   constructor(props) {
     super(props);
@@ -67,16 +61,15 @@ class StepForm extends React.Component {
         initialValues={{
           description
         }}
-        validationSchema={StepSchema}
         onSubmit={isEditingStep ? this.onEditSubmit : this.onCreateSubmit}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, values }) => (
           <Form className="ui form">
             <UIForm.Field required>
               <label>Step</label>
               <Field name="description" placeholder="Describe the next cooking step" render={this.renderTextAreaField} />
             </UIForm.Field>
-            <Button type="submit" disabled={errors.description && !touched.description} primary={isEditingStep}>
+            <Button type="submit" disabled={!values.description} primary={isEditingStep}>
               <Icon name={isEditingStep ? 'edit' : 'save'} />
               {isEditingStep ? 'Edit' : 'Save'}
             </Button>

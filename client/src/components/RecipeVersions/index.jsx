@@ -6,6 +6,7 @@ import { List, Grid, Image, Pagination } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 
 const RecipeVersions = ({ versions }) => {
+  
   const [activePage, setActivePage] = useState(1);
   const handlePaginationChange = useCallback(
     (e, { activePage: newActivePage }) => versions[newActivePage - 1] ? setActivePage(newActivePage) : activePage,

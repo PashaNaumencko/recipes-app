@@ -46,7 +46,7 @@ class RecipeList extends React.Component {
                 .filter(recipe => recipe.duration && recipe.ingredients && recipe.calorificValue)
                 .map((recipe, idx) => (
                   <Segment key={idx} className={styles.recipeListBox}>
-                    <Image src={recipe.imgUrl} fluid spaced className={styles.recipeImg} />
+                    <Image src={recipe.imgUrl} fluid spaced className={styles.recipeImg}  />
                     <div className={styles.recipeListInfo}>
                       <div className={styles.recipeListContent}>
                         <h3>{recipe.title}</h3>
@@ -57,7 +57,7 @@ class RecipeList extends React.Component {
                           </Label>
                           <Label className={styles.recipeLabel}>
                             <Icon name='utensils' />
-                            {recipe.calorificValue}
+                            {recipe.calorificValue} ccal
                           </Label>
                         </div>
                         <p>
