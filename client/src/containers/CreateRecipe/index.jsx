@@ -173,7 +173,6 @@ class CreateRecipe extends React.Component {
 
   render() {
     const { isCreating, isEditing, versionLoading, isShowing, versions } = this.state;
-    console.log(versions);
     const { 
       imgUrl, 
       title, 
