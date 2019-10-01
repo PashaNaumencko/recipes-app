@@ -1,9 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import AdditionalInfo from '../AdditionalInfo/index';
-import 'react-vertical-timeline-component/style.min.css';
-import { List, Grid, Segment, Image, Icon, Pagination } from 'semantic-ui-react';
+import { List, Grid, Image, Pagination } from 'semantic-ui-react';
 
 import styles from './styles.module.scss';
 
@@ -11,7 +9,7 @@ const RecipeVersions = ({ versions }) => {
   const [activePage, setActivePage] = useState(1);
   const handlePaginationChange = useCallback(
     (e, { activePage: newActivePage }) => versions[newActivePage - 1] ? setActivePage(newActivePage) : activePage,
-    []
+    [activePage, versions]
   );
   const { imgUrl, steps, title, duration, ingredients, calorificValue } = versions[activePage - 1];
   return (
@@ -46,6 +44,10 @@ const RecipeVersions = ({ versions }) => {
       </Grid>
     </>
   );
+};
+
+RecipeVersions.propTypes = {
+  versions: PropTypes.array
 };
 
 export default RecipeVersions;

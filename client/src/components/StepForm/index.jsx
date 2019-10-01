@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addRecipeStep, editRecipeStep, deleteRecipeStep } from '../../routines/routines';
-import { Container, Grid, Segment, Button, Dropdown, Image, Icon, Form as UIForm } from 'semantic-ui-react';
+import { Segment, Button, Icon, Form as UIForm } from 'semantic-ui-react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import { Formik, Form, Field } from 'formik';
@@ -167,13 +167,18 @@ class StepForm extends React.Component {
 
 }
 
-
 StepForm.propTypes = {
   recipeId: PropTypes.string,
   addRecipeStep: PropTypes.func,
   editRecipeStep: PropTypes.func,
-  deleteRecipeStep: PropTypes.func
+  deleteRecipeStep: PropTypes.func,
+  steps: PropTypes.array,  
+  fetchRecipeLoading: PropTypes.bool,
+  addRecipeStepLoading: PropTypes.bool,
+  editRecipeStepLoading: PropTypes.bool,
+  deleteRecipeStepLoading: PropTypes.bool
 };
+
 
 const mapStateToProps = ({
   currentRecipeData: { id, loading: fetchRecipeLoading, steps },

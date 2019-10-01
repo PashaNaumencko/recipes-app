@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import 'react-vertical-timeline-component/style.min.css';
-import { Container, Grid, Segment, Image, Icon, Statistic } from 'semantic-ui-react';
+import { Icon, Statistic } from 'semantic-ui-react';
 
 import styles from './styles.module.scss';
 
@@ -27,6 +25,12 @@ const RecipeVersion = ({ ingredients, duration, calorificValue }) => {
       <p className={styles.ingrediens}>{ingredients}</p>
     </>
   );
+};
+
+RecipeVersion.propTypes = {
+  calorificValue: PropTypes.number,
+  duration: PropTypes.string,
+  ingredients: PropTypes.string
 };
 
 export default RecipeVersion;

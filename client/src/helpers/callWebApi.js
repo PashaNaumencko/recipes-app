@@ -17,7 +17,7 @@ function getFetchArgs(args) {
     }
     const formData = new FormData();
     formData.append('title', args.request.title);
-    formData.append('imgFile', args.request.imgFile[0]);
+    formData.append('imgFile', args.request.imgFile ? args.request.imgFile[0] : null);
     body = formData;
   } else if (args.request) {
     if (args.type === 'GET') {

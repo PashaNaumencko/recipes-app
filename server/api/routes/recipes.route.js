@@ -32,7 +32,7 @@ router.get('/title/:title', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const imgFile = req.files.imgFile;
+  const imgFile = req.files ? req.files.imgFile : null;
   const { title } = req.body;
   createRecipeTitle(title, imgFile)
     .then(data => {
@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/title/:recipeId', (req, res, next) => {
-  const { imgFile } = req.files;
+  const imgFile = req.files ? req.files.imgFile : null;
   const { recipeId } = req.params;
   const { title } = req.body;
   updateRecipeTitle(recipeId, { title, imgFile })

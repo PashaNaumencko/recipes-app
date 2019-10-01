@@ -89,6 +89,12 @@ class RecipeList extends React.Component {
   }
 }
 
+RecipeList.propTypes = {
+  fetchAllRecipes: PropTypes.func,
+  recipes: PropTypes.array,  
+  allRecipesLoading: PropTypes.bool
+};
+
 const mapStateToProps = ({ 
   allRecipesData: { loading: allRecipesLoading, recipes }
 }) => ({

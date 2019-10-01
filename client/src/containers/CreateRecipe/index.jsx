@@ -100,11 +100,11 @@ class CreateRecipe extends React.Component {
             <Form className="ui form">
               <UIForm.Group>
                 <Field type="text" name="title" placeholder="Enter recipe title" render={this.renderField} />
-                <Button type="submit" disabled={errors.title || !touched.title} className={styles.submitButton}>
+                <Button primary type="submit" className={styles.submitButton}>
                   {isEditing ? 'Edit recipe title' : 'Create recipe'}
                 </Button>
                 {isEditing ? (
-                  <Button onClick={this.onCancelClick}>
+                  <Button secondary onClick={this.onCancelClick}>
                     Cancel
                   </Button>
                 ): null}
@@ -163,7 +163,6 @@ class CreateRecipe extends React.Component {
     const { history } = this.props;
     this.props.createRecipe({ ...values, imgFile, history });
     this.setState({ isCreating: true, isEditing: false });
-
   }
 
   onEditSubmit(values) {
@@ -258,7 +257,18 @@ class CreateRecipe extends React.Component {
 CreateRecipe.propTypes = {
   recipeId: PropTypes.string,
   createRecipe: PropTypes.func,
-  fetchRecipe: PropTypes.func
+  fetchRecipe: PropTypes.func,
+  title: PropTypes.string,
+  imgUrl: PropTypes.string,
+  steps: PropTypes.array,  
+  calorificValue: PropTypes.number,
+  duration: PropTypes.string,
+  ingredients: PropTypes.string,
+  previousVersions: PropTypes.array,
+  previousVersionId: PropTypes.string,
+  createRecipeLoading: PropTypes.bool,
+  editRecipeLoading: PropTypes.bool,
+  fetchRecipeLoading: PropTypes.bool,
 };
 
 const mapStateToProps = ({ 

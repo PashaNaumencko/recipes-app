@@ -10,30 +10,38 @@ const getRecipeById = id => recipesRepository.findOne({ id });
 const getRecipeByTitle = title => recipesRepository.findOne({ title });
 
 const createRecipeTitle = async (title, imgFile) => {
-  imgFile.mv('images/' + imgFile.name, (err) => {
-    if (err) {
-      return { status: 500, message: 'File upload error' };
-    }
-  });
+  let imgUrl = 'http://thecrites.com/sites/all/modules/cookbook/theme/images/default-recipe-big.png';
+  if(imgFile) {
+    imgFile.mv('images/' + imgFile.name, (err) => {
+      if (err) {
+        return { status: 500, message: 'File upload error' };
+      }
+    });
+    imgUrl = `${serverUrl}/${imgFile.name}`;
+  }
 
   await recipesRepository.create({
     title,
-    imgUrl: `${serverUrl}/${imgFile.name}`
+    imgUrl
   });
 
   return { status: 201, message: 'Recipe title created' };
 };
 
 const updateRecipeTitle = async (recipeId, { title, imgFile }) => {
-  imgFile.mv('images/' + imgFile.name, (err) => {
-    if (err) {
-      return { status: 500, message: 'File upload error' };
-    }
-  });
+  let imgUrl = 'http://thecrites.com/sites/all/modules/cookbook/theme/images/default-recipe-big.png';
+  if(imgFile) {
+    imgFile.mv('images/' + imgFile.name, (err) => {
+      if (err) {
+        return { status: 500, message: 'File upload error' };
+      }
+    });
+    imgUrl = `${serverUrl}/${imgFile.name}`;
+  }
   
   await recipesRepository.updateById(recipeId, {
     title,
-    imgUrl: `${serverUrl}/${imgFile.name}`
+    imgUrl
   });
   
   return { status: 200, message: 'Recipe title updated' };

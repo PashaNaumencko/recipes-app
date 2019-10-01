@@ -6,7 +6,7 @@ import BayLeaf from '../../styles/assets/images/bay-leaf.png';
 const Footer = () => (
   <Container>
     <Divider horizontal>
-      <img src={BayLeaf} />
+      <img src={BayLeaf} alt="leaf" />
     </Divider>
   </Container>
 );

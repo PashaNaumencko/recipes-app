@@ -1,8 +1,8 @@
-import { takeEvery, put, call, all, select } from 'redux-saga/effects';
+import { takeEvery, put, call, all } from 'redux-saga/effects';
 import * as recipeService from '../../services/recipeService';
 import { fetchAllRecipes } from '../../routines/routines';
 
-function* allRecipesRequest({ payload: recipeId }) {
+function* allRecipesRequest() {
   try {
     yield put(fetchAllRecipes.request());
     const response = yield call(recipeService.getAllRecipes);

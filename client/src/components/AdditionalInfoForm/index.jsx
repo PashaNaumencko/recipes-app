@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Segment, Button, Icon, Statistic,Form as UIForm } from 'semantic-ui-react';
+import { Segment, Button, Icon, Form as UIForm } from 'semantic-ui-react';
 import AdditionalInfo from '../AdditionalInfo/index';
 import { editRecipe } from '../../routines/routines';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 const AdditionInfoSchema = Yup.object().shape({
   calorificValue: Yup.number()
@@ -165,8 +165,17 @@ class AdditionalInfoForm extends React.Component {
             </Segment>
           );
   }
-
 }
+
+AdditionalInfoForm.propTypes = {
+  recipeId: PropTypes.string,
+  editRecipe: PropTypes.func,
+  calorificValue: PropTypes.number,
+  duration: PropTypes.string,
+  ingredients: PropTypes.string,  
+  editRecipeLoading: PropTypes.bool,
+  fetchRecipeLoading: PropTypes.bool,
+};
 
 const mapStateToProps = ({ 
   currentRecipeData: { id, calorificValue, ingredients, duration, loading: fetchRecipeLoading }, 
