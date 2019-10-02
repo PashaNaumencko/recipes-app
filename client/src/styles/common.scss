@@ -6,7 +6,6 @@ h2 {
     text-align: center;
 }
 
-
 .ui.container .ui.form .field input {
     border: 1px solid #bbbbbb;
     border-radius: 0;
@@ -15,11 +14,20 @@ h2 {
 }
 
 
+.ui.container .ui.button {
+    font-family: 'Source Sans Pro', sans-serif !important;
+}
+
+.ui.pagination {
+    font-family: 'Source Sans Pro', sans-serif !important;
+}
+
 .ui.container .ui.primary.button {
     border: 1px solid #bbbbbb;
     font-weight: bold;
     background: #2f3032;
     color: #ffffff;
+    font-family: 'Source Sans Pro', sans-serif !important;
 }
 
 .ui.container .ui.secondary.button {
@@ -27,6 +35,7 @@ h2 {
     font-weight: bold;
     background: #ffffff;
     color: #333333;
+    font-family: 'Source Sans Pro', sans-serif !important;
 }
 
 .ui.container .ui.segment {

@@ -1,45 +1,3 @@
-:global(.vertical-timeline) {
-  margin: 0;
-  padding: 0 0 2em 0;
-}
-
-:global(.vertical-timeline::before) {
-  background: #2f3032;
-  width: 2px;
-}
-
-:global(.vertical-timeline-element-icon.bounce-in) {
-  background: rgb(47, 48, 50);
-  color: rgb(255, 255, 255);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  box-shadow: none;
-}
-
-:global(.ui.container .vertical-timeline-element-content.bounce-in) {
-  box-shadow: none;
-  word-break: break-word;
-  &:hover {
-      :local(.closeButton) {
-          display: block;
-          cursor: pointer;
-      }
-      :local(.editButton) {
-          display: block;
-          cursor: pointer;
-      }
-  }
-
-}
-
-:global(.vertical-timeline-element-content.bounce-in p) {
-  margin: 0;
-  font-size: 1.3em;
-  width: 85%;
-}
-
 :local(.versionImg) {
   margin-bottom: 20px;
 }
@@ -47,7 +5,9 @@
 :local(.paginatorBox) {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 10px;
 }
 
 :global(.ui.container .ui.pagination.menu) {

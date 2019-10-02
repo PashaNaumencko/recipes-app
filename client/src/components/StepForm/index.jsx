@@ -84,7 +84,7 @@ class StepForm extends React.Component {
   }
 
   onAddClick() {
-    this.setState({ isAdding: true });
+    this.setState((prevState) => ({ isAdding: !prevState.isAdding }));
   }
 
   onEditClick(event, step) {
@@ -140,11 +140,9 @@ class StepForm extends React.Component {
                     </VerticalTimelineElement>
                   ): null}
                 </VerticalTimeline>
-                {isAdding ? null : (
-                  <Button primary icon className={styles.addStepButton} onClick={this.onAddClick}>
-                    <Icon name='plus' />
-                  </Button>
-                )}
+                <Button primary icon className={styles.addStepButton} onClick={this.onAddClick}>
+                  <Icon name={isAdding ? 'minus' :'plus'} />
+                </Button>
               </>
             ) : (
               <VerticalTimeline layout="1-column">

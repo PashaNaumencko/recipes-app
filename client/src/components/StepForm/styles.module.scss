@@ -19,9 +19,10 @@
     width: 2px;
 }
 
-:global(.vertical-timeline-element-icon.bounce-in) {
-    background: rgb(47, 48, 50);
-    color: rgb(255, 255, 255);
+:global(.ui.container .vertical-timeline-element-icon.bounce-in) {
+    background: #ffffff;
+    color: #2f3032;
+    border: 1px solid #2f3032;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,23 +37,32 @@
         :local(.closeButton) {
             display: block;
             cursor: pointer;
+            :global(.i.icon) {
+                font-size: 0.8em;
+            }
         }
         :local(.editButton) {
             display: block;
             cursor: pointer;
+            :global(.i.icon) {
+                font-size: 0.8em;
+            }
         }
     }
 
 }
 
-:global(.vertical-timeline-element-content.bounce-in p) {
+:global(.ui.container .vertical-timeline-element-content.bounce-in p) {
     margin: 0;
-    font-size: 1.3em;
+    font-size: 1.1em;
     width: 85%;
 }
 
 :global(.ui.container .ui.primary.icon.button):local(.addStepButton) {
     border-radius: 50%;
+    background: #ffffff;
+    color: #2f3032;
+    border: 1px solid #2f3032;
 }
 
 :local(.closeButton) {

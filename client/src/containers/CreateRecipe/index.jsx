@@ -108,11 +108,9 @@ class CreateRecipe extends React.Component {
                 <Button primary type="submit" className={styles.submitButton}>
                   {isEditing ? 'Edit recipe title' : 'Create recipe'}
                 </Button>
-                {isEditing ? (
-                  <Button secondary onClick={this.onCancelClick}>
+                <Button secondary onClick={this.onCancelClick}>
                     Cancel
-                  </Button>
-                ): null}
+                </Button>
               </UIForm.Group>
               <Field type="file" name="imgFile" render={this.renderImageUploader} />
             </Form>
@@ -127,7 +125,14 @@ class CreateRecipe extends React.Component {
   }
 
   onCancelClick() {
-    this.setState({ isEditing: false });
+    const { isEditing  } = this.state;
+    const { history } = this.props;
+    if(isEditing) {
+      this.setState({ isEditing: false });
+    }
+    else {
+      history.push('/');
+    }
   }
 
   onShowVersionClick() {
@@ -195,7 +200,7 @@ class CreateRecipe extends React.Component {
             <Segment>
               <div className={styles.recipeTitlePlaceholder}>
                 <h2 className={styles.mainHeading}>{title}</h2>
-                <Image src={imgUrl} />
+                <Image src={imgUrl} size="medium" />
                 <Button onClick={this.onEditClick}>
                     Edit recipe title
                 </Button>
