@@ -128,7 +128,7 @@ class AdditionalInfoForm extends React.Component {
 
   render() {
     const { calorificValue, ingredients, duration, editRecipeLoading, fetchRecipeLoading, versionLoading } = this.props;
-    const{ ingredientsArray, isEditing } = this.state;
+    const{ isEditing } = this.state;
     return fetchRecipeLoading || versionLoading
       ? null : editRecipeLoading 
         ? <Segment loading></Segment> 
