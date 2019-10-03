@@ -65,5 +65,23 @@
 
 :global(.ui.container .ui.fluid.image):local(.recipeImg) {
     margin: 0;
+    width: 360px;
     height: 295px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+:local(.recipeImgWrapper) {
+    margin: 0;
+    width: 309px;
+    height: 309px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    img {
+        display: block;
+        width: auto;
+        height: 100%;
+    }
 }

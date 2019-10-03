@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Container, Button, Image, Header, Divider, Label, Icon, Segment } from 'semantic-ui-react';
+import { Container, Button, Header, Divider, Label, Icon, Segment } from 'semantic-ui-react';
 import { fetchAllRecipes } from '../../routines/routines';
 
 import styles from './styles.module.scss';
@@ -46,7 +46,10 @@ class RecipeList extends React.Component {
               <div className={styles.recipeListGrid}>
                 {recipes.map((recipe, idx) => (
                   <Segment key={idx} className={styles.recipeListBox}>
-                    <Image src={recipe.imgUrl} fluid spaced className={styles.recipeImg} />
+                    <div className={styles.recipeImgWrapper}>
+                      <img src={recipe.imgUrl}  alt="recipe image" />
+                    </div>
+                    {/* <Image  fluid spaced wrapped /> */}
                     <div className={styles.recipeListInfo}>
                       <div className={styles.recipeListContent}>
                         <h3>{recipe.title}</h3>
