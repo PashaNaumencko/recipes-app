@@ -47,7 +47,7 @@ class RecipeList extends React.Component {
                 {recipes.map((recipe, idx) => (
                   <Segment key={idx} className={styles.recipeListBox}>
                     <div className={styles.recipeImgWrapper}>
-                      <img src={recipe.imgUrl}  alt="recipe image" />
+                      <img src={recipe.imgUrl} alt='' />
                     </div>
                     {/* <Image  fluid spaced wrapped /> */}
                     <div className={styles.recipeListInfo}>
@@ -80,6 +80,10 @@ class RecipeList extends React.Component {
             </>
           ) : (
             <Segment placeholder>
+              <Button onClick={this.onCreateClick} secondary>
+                <Icon name="plus" />
+                Create new recipe
+              </Button>
               <Header icon>
                 <Icon name="utensils" />
                 No recipes are listed on this customer.
