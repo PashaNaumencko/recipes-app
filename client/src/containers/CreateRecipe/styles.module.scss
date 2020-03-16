@@ -1,21 +1,39 @@
-:global(.ui.container .ui.form .fields) {
-    justify-content: center;
-    margin: 1em -0.5em;
+:global(.ui.container) {
+  :global(.ui.form) {
+    :global( .ui.label) {
+      border-radius: 0;
+    }
+    :global(.error.field) {
+      display: flex;
+      align-items: center;
+    }
+    :global(.fields) {
+      justify-content: center;
+      margin: 1em -0.5em;
+    }
+  }
 }
 
-:global(.ui.form .ui.label) {
-    border-radius: 0;
+:local(.mainHeading) {
+  // text-align: start;
 }
 
-:global(.ui.form .error.field) {
-    display: flex;
-    align-items: center;
+:global(.fileUploader) {
+    // background: #cccccc;
+    // font-size: 1.1em;
+    height: calc(100% - 50px);
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
 }
 
 :global(.fileContainer) {
-    background: #cccccc;
-    font-size: 1.1em;
+  background: #cccccc;
+  margin: 0;
+  font-size: 1.1em;
+  height: 100%;
 }
+
 
 :local(.recipeTitlePlaceholder) {
     display: flex;
@@ -28,7 +46,7 @@
 :local(.reverseBox) {
     display: flex;
     align-items: center;
-    flex-direction: row-reverse; 
+    flex-direction: row-reverse;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 15px;

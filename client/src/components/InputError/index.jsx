@@ -4,15 +4,11 @@ import { ErrorMessage } from 'formik';
 
 import styles from './styles.module.scss';
 
-export class InputError extends React.Component {
-  render() {
-    return (
-      <div className={styles.errorWrapper}>
-        <ErrorMessage name={this.props.name} />
-      </div>
-    );
-  }
-}
+const InputError = ({ name, customError }) =>  (
+  <div className={styles.errorWrapper}>
+    {customError || <ErrorMessage name={name} />}
+  </div>
+);
 
 InputError.propTypes = {
   name: PropTypes.string

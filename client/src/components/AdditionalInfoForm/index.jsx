@@ -15,69 +15,23 @@ class AdditionalInfoForm extends React.Component {
       currentValues: {},
       isEditing: false
     };
-
-    this.onEditSubmit = this.onEditSubmit.bind(this);
-    this.onEditClick = this.onEditClick.bind(this);
-    this.onCancelClick = this.onCancelClick.bind(this);
-    this.onDropDownChange = this.onDropDownChange.bind(this);
   }
 
-  
 
-  onIngredientAddition = (event, { value }) => this.setState({
-    ingredientsArray: [...this.state.ingredientsArray.filter(ing => ing.value !== value), { text: value, value }]
-  });
 
-  onDropdownKeyDown = (event) => {
-    if (event.which === 32) {
-      event.preventDefault();
-      if (event.target.value.trim() !== '') {
-        this.onIngredientAddition(event, { value: event.target.value });
-      }
-    }
-  }
-
-  onDropDownChange(event, { value }) {
-    this.setState({ currentValues: value });
-  }
-
-  renderDropdownField = ({ field, form: { errors } }) => {
-    const { ingredientsArray, currentValues } = this.state;
-
-    return (
-      <UIForm.Dropdown
-        noResultsMessage="Enter new ingrediens and press Enter."
-        fluid 
-        multiple 
-        search 
-        scrolling 
-        selection 
-        allowAdditions
-        compact
-        value={currentValues}
-        options={ingredientsArray}
-        onKeyDown={this.onDropdownKeyDown}
-        onAddItem={this.onIngredientAddition}
-        onChange={this.onDropDownChange}
-      />
-    );
-  }
-
-  onEditClick() {
+  onEditClick = () => {
     const { ingredients } = this.props;
     const ingredientsArray = ingredients.split(',').filter(Boolean);
-    this.setState({ 
+    this.setState({
       isEditing: true,
       ingredientsArray: ingredientsArray.map(ing => ({ text: ing, value: ing })),
       currentValues: ingredientsArray
     });
   }
 
-  onCancelClick() {
-    this.setState({ isEditing: false });
-  }
+  onCancelClick = () => this.setState({ isEditing: false });
 
-  onEditSubmit(values) {
+  onEditSubmit = (values) => {
     const { recipeId } = this.props;
     const { currentValues } = this.state;
     this.props.editRecipe({...values, recipeId, ingredients: currentValues.join(',')});
@@ -99,19 +53,7 @@ class AdditionalInfoForm extends React.Component {
       >
         {({ errors, touched, values }) => (
           <Form className="ui form">
-            <UIForm.Field required>
-              <label>Calorific value</label>
-              <Field name="calorificValue" type="number" placeholder="Enter the number of calories in the dish" render={this.renderField} />
-            </UIForm.Field>
-            <UIForm.Field required>
-              <label>Duration</label>
-              <Field name="duration" type="text" placeholder="Enter approximate cooking time" render={this.renderField} />
-            </UIForm.Field>
-            <UIForm.Field required>
-              <label>Ingredients</label>
-              <Field name="ingredients"  render={this.renderDropdownField} />
-            </UIForm.Field>
-            <Button type="submit" disabled={!values.calorificValue || !values.duration || ingredientsArray.length === 0} > 
+            <Button type="submit" disabled={!values.calorificValue || !values.duration || ingredientsArray.length === 0} >
               <Icon name="save" />
               Save
             </Button>
@@ -130,13 +72,13 @@ class AdditionalInfoForm extends React.Component {
     const { calorificValue, ingredients, duration, editRecipeLoading, fetchRecipeLoading, versionLoading } = this.props;
     const{ isEditing } = this.state;
     return fetchRecipeLoading || versionLoading
-      ? null : editRecipeLoading 
-        ? <Segment loading></Segment> 
-        : isEditing 
+      ? null : editRecipeLoading
+        ? <Segment loading></Segment>
+        : isEditing
           ? (
             <Segment>
-              {this.renderAdditionalInfoForm()} 
-            </Segment> 
+              {this.renderAdditionalInfoForm()}
+            </Segment>
           ) : (
             <Segment>
               <h2>Additional info</h2>
@@ -159,18 +101,18 @@ AdditionalInfoForm.propTypes = {
   editRecipe: PropTypes.func,
   calorificValue: PropTypes.number,
   duration: PropTypes.string,
-  ingredients: PropTypes.string,  
+  ingredients: PropTypes.string,
   editRecipeLoading: PropTypes.bool,
   fetchRecipeLoading: PropTypes.bool,
 };
 
-const mapStateToProps = ({ 
-  currentRecipeData: { id, calorificValue, ingredients, duration, loading: fetchRecipeLoading }, 
+const mapStateToProps = ({
+  currentRecipeData: { id, calorificValue, ingredients, duration, loading: fetchRecipeLoading },
   editRecipeData: { loading: editRecipeLoading },
 }) => ({
   recipeId: id,
-  calorificValue, 
-  ingredients, 
+  calorificValue,
+  ingredients,
   duration,
   editRecipeLoading,
   fetchRecipeLoading
