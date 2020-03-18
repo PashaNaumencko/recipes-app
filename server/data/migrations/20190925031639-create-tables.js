@@ -16,9 +16,6 @@ module.exports = {
         imgUrl: {
           type: Sequelize.STRING
         },
-        ingredients: {
-          type: Sequelize.TEXT
-        },
         previousVersionId: {
           type: Sequelize.UUID
         },

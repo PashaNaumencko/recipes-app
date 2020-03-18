@@ -1,7 +1,7 @@
 import { takeEvery, put, call, all, select } from 'redux-saga/effects';
 import * as recipeService from '../../services/recipeService';
 import * as stepService from '../../services/stepService';
-import { fetchRecipe, addRecipeStep, editRecipeStep, deleteRecipeStep } from '../../routines/routines';
+import { fetchRecipe, addRecipeStep, editRecipeStep, deleteRecipeStep } from '../../routines';
 
 function* addRecipeStepRequest({ payload }) {
   try {
@@ -17,11 +17,11 @@ function* addRecipeStepRequest({ payload }) {
     yield put(addRecipeStep.fulfill());
   }
 }
-  
+
 function* watchCreateRecipeRequest() {
   yield takeEvery(addRecipeStep.TRIGGER, addRecipeStepRequest);
 }
-  
+
 function* editRecipeStepRequest({ payload }) {
   try {
     yield put(editRecipeStep.request());
@@ -36,12 +36,12 @@ function* editRecipeStepRequest({ payload }) {
     yield put(editRecipeStep.fulfill());
   }
 }
-  
+
 function* watchEditRecipeStepRequest() {
   yield takeEvery(editRecipeStep.TRIGGER, editRecipeStepRequest);
 }
 
-  
+
 function* deleteRecipeStepRequest({ payload: stepId }) {
   try {
     yield put(deleteRecipeStep.request());
@@ -56,11 +56,11 @@ function* deleteRecipeStepRequest({ payload: stepId }) {
     yield put(deleteRecipeStep.fulfill());
   }
 }
-  
+
 function* watchDeleteRecipeStepRequest() {
   yield takeEvery(deleteRecipeStep.TRIGGER, deleteRecipeStepRequest);
 }
-  
+
 export default function* createRecipePageSagas() {
   yield all([watchCreateRecipeRequest(), watchEditRecipeStepRequest(), watchDeleteRecipeStepRequest()]);
 }

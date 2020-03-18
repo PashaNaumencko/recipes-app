@@ -1,4 +1,4 @@
-import { fetchAllRecipes } from '../../routines/routines';
+import { fetchAllRecipes } from '../../routines';
 
 const initialFetchAllRecipeseState = {
   recipes: [],

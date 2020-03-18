@@ -10,3 +10,6 @@ export const addRecipeStep = createRoutine('ADD_RECIPE_STEP');
 export const editRecipeStep = createRoutine('EDIT_RECIPE_STEP');
 export const deleteRecipeStep = createRoutine('DELETE_RECIPE_STEP');
 export const saveRecipeAddInfo = createRoutine('SAVE_RECIPE_ADD_INFO');
+
+
+export const SHOW_STEP_FORM = 'SHOW_STEP_FORM';

@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Grid, Segment, Button, Image, Icon, Form as UIForm, DropdownItem } from 'semantic-ui-react';
-import StepForm from '../../components/StepForm/index';
-import AdditionalInfoForm from '../../components/AdditionalInfoForm/index';
+import StepForm from '../StepForm';
 import RecipeVersions from '../../components/RecipeVersions';
 import ImageField from '../../components/ImageField';
 import TextField from '../../components/TextField';
 import DropdownField from '../../components/DropdownField';
 import InputError from '../../components/InputError';
-import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines/routines';
+import { createRecipe, fetchRecipe, editRecipeTitle } from '../../routines';
 import * as recipeService from '../../services/recipeService';
 
 
@@ -23,19 +22,14 @@ export const FormSchema = Yup.object().shape({
     .min(2, 'Minimum length - 2 characters')
     .max(255, 'Maximum length - 255 characters')
     .required('Required'),
-  // image: Yup.string()
-  //   .min(2, 'Minimum length - 2 characters')
-  //   .max(255, 'Maximum length - 255 characters')
-  //   .required('Required'),
-  calorificValue: Yup.number()
-    .positive()
-    .integer()
+  calorificValue: Yup.string()
+    .matches(/^\d+$/, 'Calorific value should be a positive number')
+    .test('calorificValue', 'Calorific value should be non-zero value', value => Number(value) !== 0)
+    .min(2, 'Minimum length - 2 characters')
+    .max(255, 'Maximum length - 255 characters')
     .required('Required'),
-  // .matches(/^\d+$/, 'Age should be a positive number')
-  // .test('calorificValue', 'Age should be non-zero value', value => Number(value) !== 0)
-  // .required('Required'),
   duration: Yup.string()
-    .matches(/^\d+$/, 'Age should be a positive number')
+    .matches(/^.*[0-9].*$/, 'Duration should have at least one positive number')
     .min(2, 'Minimum length - 2 characters')
     .max(255, 'Maximum length - 255 characters')
     .required('Required'),
@@ -50,8 +44,7 @@ class CreateRecipe extends React.Component {
       ingredients: [],
       selectedIngredients: [],
       dropdownTouched: false,
-      dropdownTouched: false
-      // versionLoading: false
+      isStepFormShown: false
     };
   }
 
@@ -72,24 +65,7 @@ class CreateRecipe extends React.Component {
 
   onDropdownChange = (event, { value }) => this.setState({ dropdownTouched: true, selectedIngredients: value });
 
-  // renderCreateRecipeForm() {
-  //   const { isEditing } = this.state;
-  //   const { title } = this.props;
-  //   return (
-
-  //   );
-  // }
-
-  // onCancelClick = () => {
-  //   const { isEditing  } = this.state;
-  //   const { history } = this.props;
-  //   if(isEditing) {
-  //     this.setState({ isEditing: false });
-  //   }
-  //   else {
-  //     history.push('/');
-  //   }
-  // }
+  onCancelClick = () => this.props.history.push('/');
 
   // onShowVersionClick() {
   //   this.setState((prevState) => ({ isShowing: !prevState.isShowing }));
@@ -118,11 +94,11 @@ class CreateRecipe extends React.Component {
   //   }));
   // }
 
+
+
   onCreateSubmit = (values) => {
-    const { imgFile } = this.state;
-    const { history } = this.props;
-    this.props.createRecipe({ ...values, imgFile, history });
-    this.setState({ isCreating: true, isEditing: false });
+    const { imgFile, selectedIn } = this.state;
+    this.props.createRecipe({ ...values, imgFile });
   }
 
   // onEditSubmit = (values) => {
@@ -133,58 +109,70 @@ class CreateRecipe extends React.Component {
   // }
 
   render() {
-    const { ingredients, isEditing, dropdownTouched, selectedIngredients } = this.state;
-    const {
-      imgUrl,
-      title,
-      calorificValue,
-      duration,
-      // ingredients,
-      createRecipeLoading,
-      fetchRecipeLoading,
-      editRecipeLoading
-    } = this.props;
+    const { ingredients, isEditing, dropdownTouched, selectedIngredients} = this.state;
+    const { title, createRecipeLoading, editRecipeLoading, isStepFormShown } = this.props;
 
     return (
       <Container>
         <Segment>
-          <h2 className={styles.mainHeading}>{isEditing ? 'Edit recipe title' : 'Create recipe'}</h2>
+          {/* isEditing ? 'Edit recipe title' : 'Create recipe' */}
+          <h2 className={styles.mainHeading}>Create recipe</h2>
           <Formik
             initialValues={{
-              title
+              title: '',
+              calorificValue: '',
+              duration: ''
             }}
             validationSchema={FormSchema}
-          // onSubmit={isEditing ? this.onEditSubmit : this.onCreateSubmit}
+            onSubmit={this.onCreateSubmit}
           >
             {({ errors, touched }) => (
               <Form className="ui form">
                 <Grid>
                   <Grid.Column computer={6} tablet={8} mobile={16} stretched>
-                    <UIForm.Field required>
+                    <UIForm.Field required disabled={createRecipeLoading}>
                       <label>Dish image</label>
                       <Field type="file" name="imgFile" component={ImageField} />
                     </UIForm.Field>
                   </Grid.Column>
                   <Grid.Column computer={10} tablet={8} mobile={16}>
-                    <UIForm.Field required>
+                    <UIForm.Field required disabled={createRecipeLoading}>
                       <label>Title</label>
-                      <Field type="text" name="title" placeholder="Enter recipe title" component={TextField} />
+                      <Field
+                        type="text"
+                        loading={createRecipeLoading}
+                        name="title" placeholder="Enter recipe title"
+                        component={TextField}
+                      />
                       <InputError name='title' />
                     </UIForm.Field>
-                    <UIForm.Field required>
+                    <UIForm.Field required disabled={createRecipeLoading}>
                       <label>Calorific value</label>
-                      <Field type="text" name="calorificValue" placeholder="Enter the number of calories in the dish" component={TextField} />
+                      <Field
+                        type="text"
+                        loading={createRecipeLoading}
+                        name="calorificValue"
+                        placeholder="Enter the number of calories in the dish"
+                        component={TextField}
+                      />
                       <InputError name='calorificValue' />
                     </UIForm.Field>
-                    <UIForm.Field required>
+                    <UIForm.Field required disabled={createRecipeLoading}>
                       <label>Duration</label>
-                      <Field type="text" name="duration" placeholder="Enter approximate cooking time" component={TextField} />
+                      <Field
+                        type="text"
+                        loading={createRecipeLoading}
+                        name="duration"
+                        placeholder="Enter approximate cooking time"
+                        component={TextField}
+                      />
                       <InputError name='duration' />
                     </UIForm.Field>
-                    <UIForm.Field required>
+                    <UIForm.Field required disabled={createRecipeLoading}>
                       <label>Ingredients</label>
                       <DropdownField
                         name="ingredients"
+                        loading={createRecipeLoading}
                         placeholder="Select ingredients"
                         options={ingredients}
                         onKeyDown={this.onDropdownKeyDown}
@@ -195,10 +183,10 @@ class CreateRecipe extends React.Component {
                     </UIForm.Field>
                   </Grid.Column>
                   <Grid.Column floated="right" width={5}>
-                    <Button primary floated="right"  type="submit" className={styles.submitButton}>
+                    <Button primary floated="right" loading={createRecipeLoading} type="submit" className={styles.submitButton}>
                       {isEditing ? 'Edit recipe title' : 'Create recipe'}
                     </Button>
-                    <Button secondary floated="right" onClick={this.onCancelClick}>
+                    <Button secondary floated="right" disabled={createRecipeLoading} onClick={this.onCancelClick}>
                       Cancel
                     </Button>
                   </Grid.Column>
@@ -207,6 +195,11 @@ class CreateRecipe extends React.Component {
             )}
           </Formik>
         </Segment>
+        {isStepFormShown ? (
+          <Segment>
+            <StepForm />
+          </Segment>
+        ) : null}
         {/* {isShowing ? (
           <Segment>
             <RecipeVersions versions={versions} />
@@ -219,57 +212,26 @@ class CreateRecipe extends React.Component {
 }
 
 CreateRecipe.propTypes = {
-  recipeId: PropTypes.string,
   createRecipe: PropTypes.func,
-  fetchRecipe: PropTypes.func,
-  title: PropTypes.string,
-  imgUrl: PropTypes.string,
-  steps: PropTypes.array,
-  calorificValue: PropTypes.number,
-  duration: PropTypes.string,
-  ingredients: PropTypes.string,
-  previousVersions: PropTypes.array,
-  previousVersionId: PropTypes.string,
-  rootVersionId: PropTypes.string,
   createRecipeLoading: PropTypes.bool,
   editRecipeLoading: PropTypes.bool,
   fetchRecipeLoading: PropTypes.bool,
 };
 
 const mapStateToProps = ({
-  currentRecipeData: {
-    id,
-    imgUrl,
-    title,
-    steps,
-    calorificValue,
-    duration,
-    ingredients,
-    rootVersionId,
-    previousVersionId,
-    loading: fetchRecipeLoading
-  },
+  addRecipeStepData: { isStepFormShown },
   createRecipeData: { loading: createRecipeLoading },
   editRecipeTitleData: { loading: editRecipeLoading },
 }) => ({
-  recipeId: id,
-  title,
-  imgUrl,
-  steps,
-  calorificValue,
-  duration,
-  ingredients,
-  rootVersionId,
-  previousVersionId,
   createRecipeLoading,
   editRecipeLoading,
-  fetchRecipeLoading
+  isStepFormShown
 });
 
 const mapDispatchToProps = {
   createRecipe,
   fetchRecipe,
-  editRecipeTitle
+  editRecipeTitle,
 };
 
 export default connect(

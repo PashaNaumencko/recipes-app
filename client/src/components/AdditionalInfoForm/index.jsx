@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Button, Icon, Form as UIForm } from 'semantic-ui-react';
 import AdditionalInfo from '../AdditionalInfo/index';
-import { editRecipe } from '../../routines/routines';
+import { editRecipe } from '../../routines';
 import { Formik, Form, Field } from 'formik';
 
 import './styles.module.scss';

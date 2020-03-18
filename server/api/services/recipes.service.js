@@ -11,7 +11,7 @@ const getRecipeById = id => recipesRepository.findOne({ id });
 
 const getRecipeByTitle = title => recipesRepository.findOne({ title });
 
-const createRecipeTitle = async (title, imgFile) => {
+const createRecipe = async ({ imgFile, ...body }) => {
   let imgUrl = 'https://gorving.com/_assets/_images/recipes/recipe-default@2x.png';
   if(imgFile) {
     imgFile.mv('images/' + imgFile.name, (err) => {
@@ -21,13 +21,8 @@ const createRecipeTitle = async (title, imgFile) => {
     });
     imgUrl = `${serverUrl}/${imgFile.name}`;
   }
-
-  await recipesRepository.create({
-    title,
-    imgUrl
-  });
-
-  return { status: 201, message: 'Recipe title created' };
+  const { id } = await recipesRepository.create({ ...body, imgUrl });
+  return { id, status: 201, message: 'Recipe created' };
 };
 
 const updateRecipeTitle = async (recipeId, { title, imgFile }) => {
@@ -40,18 +35,18 @@ const updateRecipeTitle = async (recipeId, { title, imgFile }) => {
     });
     imgUrl = `${serverUrl}/${imgFile.name}`;
   }
-  
+
   await recipesRepository.updateById(recipeId, {
     title,
     imgUrl
   });
-  
+
   return { status: 200, message: 'Recipe title updated' };
 };
 
 const updateRecipe = async (recipeId, body) => {
   await recipesRepository.updateById(recipeId, body);
-  
+
   return { status: 200, message: 'Recipe title updated' };
 }
 
@@ -66,7 +61,7 @@ module.exports = {
   getAllVersions,
   getRecipeById,
   getRecipeByTitle,
-  createRecipeTitle,
+  createRecipe,
   updateRecipeTitle,
   updateRecipe,
   saveRecipeVersion

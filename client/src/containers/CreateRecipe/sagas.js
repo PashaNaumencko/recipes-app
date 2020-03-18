@@ -1,6 +1,7 @@
 import { takeEvery, put, call, all, select } from 'redux-saga/effects';
 import * as recipeService from '../../services/recipeService';
-import { fetchRecipe, createRecipe, editRecipe, editRecipeTitle } from '../../routines/routines';
+import { fetchRecipe, fetchAllRecipes, createRecipe, editRecipe, editRecipeTitle } from '../../routines';
+import { showStepForm } from '../StepForm/actions';
 
 function* recipeRequest({ payload: recipeId }) {
   try {
@@ -18,20 +19,18 @@ function* watchRecipeRequest() {
   yield takeEvery(fetchRecipe.TRIGGER, recipeRequest);
 }
 
-
 function* createRecipeRequest({ payload }) {
   try {
     yield put(createRecipe.request());
     const createRecipeResponse = yield call(recipeService.addRecipe, payload);
     yield put(createRecipe.success(createRecipeResponse));
-    const fetchRecipeResponse = yield call(recipeService.getRecipeByTitle, payload.title);
-    yield put(fetchRecipe.success(fetchRecipeResponse));
+    const fetchRecipesResponse = yield call(recipeService.getAllRecipes);
+    yield put(fetchAllRecipes.success(fetchRecipesResponse));
   } catch (error) {
     yield put(createRecipe.failure(error.message));
   } finally {
     yield put(createRecipe.fulfill());
-    const { currentRecipeData: { id: recipeId } } = yield select();
-    payload.history.push(`/recipes/${recipeId}`);
+    yield put(showStepForm());
   }
 }
 

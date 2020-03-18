@@ -1,4 +1,4 @@
-import { fetchRecipe, createRecipe, editRecipe, editRecipeTitle } from '../../routines/routines';
+import { fetchRecipe, createRecipe, editRecipe, editRecipeTitle } from '../../routines';
 
 const initialFetchRecipeState = {
   id: '',
@@ -9,9 +9,9 @@ const initialFetchRecipeState = {
   duration: '',
   createdAt: '',
   updatedAt: '',
-  previousVersionId: '',
-  previousVersion: null,
-  previousVersions: [],
+  // previousVersionId: '',
+  // previousVersion: null,
+  // previousVersions: [],
   steps: null,
   loading: false,
   error: null

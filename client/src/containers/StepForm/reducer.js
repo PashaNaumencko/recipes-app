@@ -1,9 +1,10 @@
-import { addRecipeStep, editRecipeStep, deleteRecipeStep } from '../../routines/routines';
+import { addRecipeStep, editRecipeStep, deleteRecipeStep, SHOW_STEP_FORM } from '../../routines';
 
 const initialState = {
   response: null,
   loading: false,
-  error: null
+  error: null,
+  isStepFormShown: false
 };
 
 export const addRecipeStepData = (state = initialState, action) => {
@@ -27,6 +28,11 @@ export const addRecipeStepData = (state = initialState, action) => {
     return {
       ...state,
       loading: false
+    };
+  case SHOW_STEP_FORM:
+    return {
+      ...state,
+      isStepFormShown: true
     };
   default:
     return state;

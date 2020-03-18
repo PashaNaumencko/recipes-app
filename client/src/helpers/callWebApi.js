@@ -15,10 +15,8 @@ function getFetchArgs(args) {
     if (args.type === 'GET') {
       throw new Error('GET request does not support attachments.');
     }
-    const formData = new FormData();
-    formData.append('title', args.request.title);
-    formData.append('imgFile', args.request.imgFile ? args.request.imgFile[0] : null);
-    body = formData;
+
+    body = fillFormData(args.request);
   } else if (args.request) {
     if (args.type === 'GET') {
       throw new Error('GET request does not support request body.');
@@ -31,6 +29,19 @@ function getFetchArgs(args) {
     signal: args.ct,
     ...(args.request === 'GET' ? {} : { body })
   };
+}
+
+function fillFormData(request) {
+  const formData = new FormData();
+  Object.keys(request).forEach((field) => {
+    if(field === 'imgFile') {
+      formData.append('imgFile', request[field] ? request[field][0] : null);
+    } else {
+      formData.append(field, request[field]);
+    }
+  });
+
+  return formData;
 }
 
 export async function throwIfResponseFailed(res) {

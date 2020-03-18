@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addRecipeStep, editRecipeStep, deleteRecipeStep } from '../../routines/routines';
+import { addRecipeStep, editRecipeStep, deleteRecipeStep } from '../../routines';
 import { Segment, Button, Icon, Form as UIForm } from 'semantic-ui-react';
 import TextAreaField from '../../components/TextAreaField';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Container, Button, Header, Divider, Label, Icon, Segment } from 'semantic-ui-react';
-import { fetchAllRecipes } from '../../routines/routines';
+import { fetchAllRecipes } from '../../routines';
 
 import styles from './styles.module.scss';
 
@@ -32,8 +32,8 @@ class RecipeList extends React.Component {
     return (
       <Container>
 
-        {allRecipesLoading 
-          ? <Segment loading></Segment> 
+        {allRecipesLoading
+          ? <Segment loading></Segment>
           : recipes.length ? (
             <>
               <h2 className={styles.mainHeading}>Recipes</h2>
@@ -99,11 +99,11 @@ class RecipeList extends React.Component {
 
 RecipeList.propTypes = {
   fetchAllRecipes: PropTypes.func,
-  recipes: PropTypes.array,  
+  recipes: PropTypes.array,
   allRecipesLoading: PropTypes.bool
 };
 
-const mapStateToProps = ({ 
+const mapStateToProps = ({
   allRecipesData: { loading: allRecipesLoading, recipes }
 }) => ({
   recipes,

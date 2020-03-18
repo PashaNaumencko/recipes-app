@@ -1,13 +1,13 @@
 const { Router } = require('express');
-const { 
+const {
   getAllRecipes,
   getAllVersions,
-  getRecipeById, 
-  getRecipeByTitle, 
-  createRecipeTitle, 
-  updateRecipeTitle, 
-  updateRecipe, 
-  saveRecipeVersion 
+  getRecipeById,
+  getRecipeByTitle,
+  createRecipe,
+  updateRecipeTitle,
+  updateRecipe,
+  saveRecipeVersion
 } = require('../services/recipes.service');
 
 const router = Router();
@@ -32,17 +32,11 @@ router.get('/:recipeId', (req, res, next) => {
     .catch(next)
 });
 
-router.get('/title/:title', (req, res, next) => {
-  const { title } = req.params;
-  getRecipeByTitle(title)
-    .then(data => res.send(data))
-    .catch(next)
-});
-
 router.post('/', (req, res, next) => {
-  const imgFile = req.files ? req.files.imgFile : null;
-  const { title } = req.body;
-  createRecipeTitle(title, imgFile)
+  const { body, files } = req;
+  const imgFile = files ? req.files.imgFile : null;
+  console.log(body);
+  createRecipe({ ...body, imgFile })
     .then(data => res.status(data.status).send({ message: data.message }))
     .catch(next)
 });

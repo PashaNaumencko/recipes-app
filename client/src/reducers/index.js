@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { currentRecipeData, createRecipeData, editRecipeData, editRecipeTitleData } from '../containers/CreateRecipe/reducer';
-import { addRecipeStepData, editRecipeStepData, deleteRecipeStepData } from '../components/StepForm/reducer';
+import { addRecipeStepData, editRecipeStepData, deleteRecipeStepData } from '../containers/StepForm/reducer';
 import { allRecipesData } from '../containers/RecipeList/reducer';
 
 export default combineReducers({
@@ -8,8 +8,8 @@ export default combineReducers({
   createRecipeData,
   editRecipeData,
   editRecipeTitleData,
-  addRecipeStepData, 
-  editRecipeStepData, 
+  addRecipeStepData,
+  editRecipeStepData,
   deleteRecipeStepData,
   allRecipesData
 });

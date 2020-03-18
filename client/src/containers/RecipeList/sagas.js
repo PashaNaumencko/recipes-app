@@ -1,6 +1,6 @@
 import { takeEvery, put, call, all } from 'redux-saga/effects';
 import * as recipeService from '../../services/recipeService';
-import { fetchAllRecipes } from '../../routines/routines';
+import { fetchAllRecipes } from '../../routines';
 
 function* allRecipesRequest() {
   try {
@@ -21,4 +21,3 @@ function* watchAllRecipesRequest() {
 export default function* recipeListPageSagas() {
   yield all([watchAllRecipesRequest()]);
 }
-  
