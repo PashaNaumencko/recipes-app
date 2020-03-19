@@ -1,9 +1,12 @@
 const recipesRepository = require('../../data/repositories/recipes.repository');
+const ingredientsRepository = require('../../data/repositories/ingredients.repository');
 const dotenv = require('dotenv');
 dotenv.config();
 const serverUrl = process.env.SERVER_HOST;
 
 const getAllRecipes = () => recipesRepository.getAll();
+
+const getAllIngredients = () => ingredientsRepository.getAll();
 
 const getAllVersions = id => recipesRepository.getAllVersions(id);
 
@@ -22,6 +25,11 @@ const createRecipe = async ({ imgFile, ...body }) => {
     imgUrl = `${serverUrl}/${imgFile.name}`;
   }
   const { id } = await recipesRepository.create({ ...body, imgUrl });
+  const ingredients = body.ingredients
+    .split(',')
+    .map(ing => ({ name: ing, recipeId: id }));
+
+  await ingredientsRepository.bulkCreate(ingredients);
   return { id, status: 201, message: 'Recipe created' };
 };
 
@@ -64,5 +72,6 @@ module.exports = {
   createRecipe,
   updateRecipeTitle,
   updateRecipe,
-  saveRecipeVersion
+  saveRecipeVersion,
+  getAllIngredients
 };

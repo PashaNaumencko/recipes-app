@@ -41,6 +41,7 @@ class CreateRecipe extends React.Component {
     this.state = {
       // versions: [],
       imgFile: null,
+      ingredientsLoading: false,
       ingredients: [],
       selectedIngredients: [],
       dropdownTouched: false,
@@ -63,13 +64,28 @@ class CreateRecipe extends React.Component {
     }
   }
 
-  onDropdownChange = (event, { value }) => this.setState({ dropdownTouched: true, selectedIngredients: value });
+  onDropdownChange = (event, { value }) =>
+    this.setState({ dropdownTouched: true, selectedIngredients: value });
+
 
   onCancelClick = () => this.props.history.push('/');
 
-  // onShowVersionClick() {
-  //   this.setState((prevState) => ({ isShowing: !prevState.isShowing }));
-  // }
+  fetchAllIngredients = async () => {
+    this.setState({ ingredientsLoading: true });
+    const ingredientsEntities = await recipeService.getAllIngredients();
+    console.log(ingredientsEntities);
+    const ingredients = ingredientsEntities.map(({ name }) => ({ text: name, value: name }));
+    this.setState({ ingredients, ingredientsLoading: false });
+  }
+
+  onDropdownOpen = () => {
+    const { ingredients } = this.state;
+    if(ingredients.length) {
+      return;
+    }
+
+    this.fetchAllIngredients();
+  }
 
   // onSaveVersionClick() {
   //   this.setState({ versionLoading: true });
@@ -97,8 +113,9 @@ class CreateRecipe extends React.Component {
 
 
   onCreateSubmit = (values) => {
-    const { imgFile, selectedIn } = this.state;
-    this.props.createRecipe({ ...values, imgFile });
+    const { imgFile, selectedIngredients } = this.state;
+    console.log(selectedIngredients);
+    this.props.createRecipe({ ...values, imgFile, ingredients: selectedIngredients });
   }
 
   // onEditSubmit = (values) => {
@@ -109,8 +126,10 @@ class CreateRecipe extends React.Component {
   // }
 
   render() {
-    const { ingredients, isEditing, dropdownTouched, selectedIngredients} = this.state;
+    const { ingredients, isEditing, dropdownTouched, selectedIngredients, ingredientsLoading} = this.state;
     const { title, createRecipeLoading, editRecipeLoading, isStepFormShown } = this.props;
+
+    console.log(selectedIngredients);
 
     return (
       <Container>
@@ -173,7 +192,9 @@ class CreateRecipe extends React.Component {
                       <DropdownField
                         name="ingredients"
                         loading={createRecipeLoading}
+                        onOpen={this.onDropdownOpen}
                         placeholder="Select ingredients"
+                        loading={ingredientsLoading}
                         options={ingredients}
                         onKeyDown={this.onDropdownKeyDown}
                         onAddItem={this.onIngredientAddition}

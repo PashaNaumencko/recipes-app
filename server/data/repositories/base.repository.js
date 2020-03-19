@@ -24,6 +24,10 @@ class BaseRepository {
     return this.model.create(data);
   }
 
+  bulkCreate(data) {
+    return this.model.bulkCreate(data);
+  }
+
   async updateById(id, data) {
     try {
       await this.model.update(data, {

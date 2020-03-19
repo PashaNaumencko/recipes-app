@@ -8,6 +8,14 @@ export const getAllRecipes = async () => {
   return response.json();
 };
 
+export const getAllIngredients = async () => {
+  const response = await callWebApi({
+    endpoint: '/api/recipes/ingredients',
+    type: 'GET'
+  });
+  return response.json();
+};
+
 export const getAllVersions = async (id) => {
   const response = await callWebApi({
     endpoint: `/api/recipes/versions/${id}`,

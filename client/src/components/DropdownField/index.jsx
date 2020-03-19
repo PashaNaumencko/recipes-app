@@ -6,9 +6,6 @@ const DropdownField = (props) => {
   return (
     <Dropdown
       {...props}
-      // {...field}
-      // value={value}
-      // placeholder={placeholder}
       noResultsMessage="Enter new ingrediens and press Enter."
       fluid
       multiple
@@ -17,16 +14,6 @@ const DropdownField = (props) => {
       selection
       allowAdditions
       compact
-      // icon={touched[field.name] &&
-      //   <Icon
-      //     name={hasError ? 'exclamation circle' : 'check circle'}
-      //     color={hasError ? 'red' : 'green'}
-      //   />
-      // }
-      // options={options}
-      // onKeyDown={onKeyDown}
-      // onAddItem={onAddItem}
-      // onChange={onChange}
     />
   );
 };

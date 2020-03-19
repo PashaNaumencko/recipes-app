@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const {
   getAllRecipes,
+  getAllIngredients,
   getAllVersions,
   getRecipeById,
-  getRecipeByTitle,
   createRecipe,
   updateRecipeTitle,
   updateRecipe,
@@ -14,6 +14,12 @@ const router = Router();
 
 router.get('/', (req, res, next) => {
   getAllRecipes()
+    .then(data => res.send(data))
+    .catch(next)
+});
+
+router.get('/ingredients', (req, res, next) => {
+  getAllIngredients()
     .then(data => res.send(data))
     .catch(next)
 });
@@ -36,6 +42,7 @@ router.post('/', (req, res, next) => {
   const { body, files } = req;
   const imgFile = files ? req.files.imgFile : null;
   console.log(body);
+  console.log(files);
   createRecipe({ ...body, imgFile })
     .then(data => res.status(data.status).send({ message: data.message }))
     .catch(next)
