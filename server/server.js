@@ -28,7 +28,7 @@ app.get('*', (req, res) => {
   res.end();
 });
 
-const port = 3000;
+const port = 5000;
 
 const server = app.listen(port, () => {
   // eslint-disable-next-line no-console

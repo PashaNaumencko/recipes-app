@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000/",
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "dotenv": "^8.2.0",
     "formik": "^1.5.8",
@@ -44,11 +44,11 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^5.6.3",
+    "@craco/craco": "^5.6.4",
     "babel-eslint": "^10.1.0",
     "craco-less": "^1.16.0",
     "eslint": "^6.8.0",
-    "eslint-config-react-app": "^5.2.0",
+    "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",

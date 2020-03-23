@@ -8,30 +8,18 @@ import { fetchAllRecipes } from '../../routines';
 import styles from './styles.module.scss';
 
 class RecipeList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.onCreateClick = this.onCreateClick.bind(this);
-    this.onEditClick = this.onEditClick.bind(this);
-  }
-
   componentDidMount() {
     this.props.fetchAllRecipes();
   }
 
-  onCreateClick() {
-    this.props.history.push('/recipes/create');
-  }
+  onCreateClick = () => this.props.history.push('/recipes/create');
 
-  onEditClick(event, id) {
-    this.props.history.push(`/recipes/${id}`);
-  }
+  onEditClick = (event, id) => this.props.history.push(`/recipes/${id}`);
 
   render() {
     const { recipes, allRecipesLoading } = this.props;
     return (
       <Container>
-
         {allRecipesLoading
           ? <Segment loading></Segment>
           : recipes.length ? (
@@ -64,7 +52,8 @@ class RecipeList extends React.Component {
                           </Label>
                         </div>
                         <p>
-                          {recipe.ingredients || 'No ingredient information'}
+                          {recipe.ingredients.length ? recipe.ingredients.map(({ name }) => `${name} `)
+                            : 'No ingredient information'}
                         </p>
                       </div>
                       <div className={styles.recipeListFooter}>

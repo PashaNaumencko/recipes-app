@@ -73,7 +73,6 @@ class CreateRecipe extends React.Component {
   fetchAllIngredients = async () => {
     this.setState({ ingredientsLoading: true });
     const ingredientsEntities = await recipeService.getAllIngredients();
-    console.log(ingredientsEntities);
     const ingredients = ingredientsEntities.map(({ name }) => ({ text: name, value: name }));
     this.setState({ ingredients, ingredientsLoading: false });
   }
@@ -114,7 +113,6 @@ class CreateRecipe extends React.Component {
 
   onCreateSubmit = (values) => {
     const { imgFile, selectedIngredients } = this.state;
-    console.log(selectedIngredients);
     this.props.createRecipe({ ...values, imgFile, ingredients: selectedIngredients });
   }
 
@@ -126,11 +124,8 @@ class CreateRecipe extends React.Component {
   // }
 
   render() {
-    const { ingredients, isEditing, dropdownTouched, selectedIngredients, ingredientsLoading} = this.state;
+    const { ingredients, isEditing, dropdownTouched, selectedIngredients, ingredientsLoading, imgFile} = this.state;
     const { title, createRecipeLoading, editRecipeLoading, isStepFormShown } = this.props;
-
-    console.log(selectedIngredients);
-
     return (
       <Container>
         <Segment>
@@ -151,7 +146,12 @@ class CreateRecipe extends React.Component {
                   <Grid.Column computer={6} tablet={8} mobile={16} stretched>
                     <UIForm.Field required disabled={createRecipeLoading}>
                       <label>Dish image</label>
-                      <Field type="file" name="imgFile" component={ImageField} />
+                      <Field
+                        type="file"
+                        name="imgFile"
+                        onImageChange={this.onImageChange}
+                        component={ImageField}
+                      />
                     </UIForm.Field>
                   </Grid.Column>
                   <Grid.Column computer={10} tablet={8} mobile={16}>

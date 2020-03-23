@@ -41,8 +41,6 @@ router.get('/:recipeId', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const { body, files } = req;
   const imgFile = files ? req.files.imgFile : null;
-  console.log(body);
-  console.log(files);
   createRecipe({ ...body, imgFile })
     .then(data => res.status(data.status).send({ message: data.message }))
     .catch(next)
