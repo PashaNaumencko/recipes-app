@@ -1,51 +1,12 @@
-const Sequelize = require('sequelize');
+const Mongoose = require('mongoose');
 const BaseRepository = require('./base.repository');
-
-const { RecipeModel, StepModel, IngredientModel } = require('../models/index');
-
-const { Op } = Sequelize;
+const { RecipeModel } = require('../models');
 
 class RecipeRepository extends BaseRepository {
-  getAllVersions(id) {
-    return this.model.findAll({
-      where: { rootVersionId: id },
-      order: [
-        [StepModel, 'createdAt', 'ASC'],
-        [StepModel, 'updatedAt', 'DESC']
-      ],
-      include: {
-        model: StepModel,
-        on: {
-          'recipeId': { [Op.eq]: Sequelize.col('recipe.rootVersionId') }
-        }
-      }
-    });
-  }
-
-  getAll() {
-    return this.model.findAll({
-      include: {
-        model: IngredientModel
-      },
-    });
-  }
-
-  findOne(where) {
-    return this.model.findOne({
-      where,
-      order: [
-        [StepModel, 'createdAt', 'ASC'],
-        [StepModel, 'updatedAt', 'DESC']
-      ],
-      include:
-      {
-        model: StepModel
-      },
-      include:
-      {
-        model: IngredientModel
-      },
-    });
+  getAllIngredients() {
+    return this.model.find()
+      .select({ _id: 1, ingredients: 1 })
+      .distinct('ingredients');
   }
 }
 

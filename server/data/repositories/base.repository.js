@@ -4,12 +4,8 @@ class BaseRepository {
   }
 
   getAll() {
-    return this.model.findAll({
-      order: [
-        ['createdAt', 'ASC'],
-        ['updatedAt', 'DESC']
-      ],
-    });
+    return this.model.find()
+    .sort({ createdAt: 1, updatedAt: -1 });;
   }
 
   findOne({ where }) {
@@ -17,39 +13,19 @@ class BaseRepository {
   }
 
   getById(id) {
-    return this.model.findByPk(id);
+    return this.model.findById(id);
   }
 
   create(data) {
     return this.model.create(data);
   }
 
-  bulkCreate(data) {
-    return this.model.bulkCreate(data);
-  }
-
   async updateById(id, data) {
-    try {
-      await this.model.update(data, {
-        where: { id },
-        returning: true,
-        plain: true
-      });
-      return {
-        status: true
-      };
-    } catch (err) {
-      return {
-        status: false,
-        errorMessage: err.message
-      };
-    }
+    return this.model.findByIdAndUpdate(id, data);
   }
 
   deleteById(id) {
-    return this.model.destroy({
-      where: { id }
-    });
+    return this.model.findByIdAndRemove(id);
   }
 }
 

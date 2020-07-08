@@ -1,18 +1,25 @@
-module.exports = (sequelize, DataTypes) => {
-  const Repository = sequelize.define(
-    'recipe',
-    {
-      title: DataTypes.STRING,
-      imgUrl: DataTypes.STRING,
-      duration: DataTypes.STRING,
-      calorificValue: DataTypes.INTEGER,
-      previousVersionId: DataTypes.UUID,
-      rootVersionId: DataTypes.UUID
-    },
-    {
-      timestamps: true
-    }
-  );
+const { Schema, model } = require('mongoose')
 
-  return Repository;
-};
+const schema = new Schema({
+  title: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  imgUrl: String,
+  duration: {
+    type: String,
+    required: true
+  },
+  calorificValue: {
+    type: Number,
+    required: true
+  },
+  steps: [String],
+  ingredients: [String]
+},
+{
+  timestamps: true
+});
+
+module.exports = model('Recipe', schema);

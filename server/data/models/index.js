@@ -1,18 +1,7 @@
-const orm = require('../db/connection');
-const associate = require('../db/associations');
+require('../db/connection');
 
-const Recipe = orm.import('./recipe');
-const Step = orm.import('./step');
-const Ingredient = orm.import('./ingredient');
-
-associate({
-    Recipe,
-    Step,
-    Ingredient
-});
+const Recipe = require('./Recipe');
 
 module.exports = {
-    RecipeModel: Recipe,
-    StepModel: Step,
-    IngredientModel: Ingredient
+    RecipeModel: Recipe
 };
