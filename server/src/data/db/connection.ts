@@ -1,10 +1,10 @@
-const Mongoose = require('mongoose');
-const config = require('../../config/db.config');
+import Mongoose from 'mongoose';
+import * as config from '../../config/db.config';
 
-async function connectToMongoDB() {
+async function connectToMongoDB(): Promise<void> {
   try {
     const { username, password, host, database } = config;
-    const mongoDBUri = `mongodb+srv://${username}:${password}@${host}/${database}?retryWrites=true&w=majority`
+    const mongoDBUri: string = `mongodb+srv://${username}:${password}@${host}/${database}?retryWrites=true&w=majority`
     await Mongoose.connect(mongoDBUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -18,4 +18,4 @@ async function connectToMongoDB() {
   }
 }
 
-module.exports = connectToMongoDB();
+export default connectToMongoDB();

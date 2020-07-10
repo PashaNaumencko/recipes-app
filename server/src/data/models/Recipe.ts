@@ -1,6 +1,7 @@
-const { Schema, model } = require('mongoose')
+import { IRecipeDoc } from '../../types'
+import { Schema, model } from 'mongoose';
 
-const schema = new Schema({
+const schema: Schema = new Schema({
   title: {
     type: String,
     required: true,
@@ -22,4 +23,4 @@ const schema = new Schema({
   timestamps: true
 });
 
-module.exports = model('Recipe', schema);
+export default model<IRecipeDoc>('Recipe', schema);
