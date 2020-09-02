@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Container, Button, Header, Divider, Label, Icon, Segment } from 'semantic-ui-react';
-import { fetchAllRecipes } from '../../routines';
+import { fetchRecipes } from '../../routines';
 
 import styles from './styles.module.scss';
 
 class RecipeList extends React.Component {
   componentDidMount() {
-    this.props.fetchAllRecipes();
+    this.props.fetchRecipes();
   }
 
-  onCreateClick = () => this.props.history.push('/recipes/create');
+  onCreateClick = () => this.props.history.push('/create');
 
   onEditClick = (event, id) => this.props.history.push(`/recipes/${id}`);
 
@@ -52,7 +52,7 @@ class RecipeList extends React.Component {
                           </Label>
                         </div>
                         <p>
-                          {recipe.ingredients.length ? recipe.ingredients.map(({ name }) => `${name} `)
+                          {recipe.ingredients.length ? recipe.ingredients.map((name) => `${name}, `)
                             : 'No ingredient information'}
                         </p>
                       </div>
@@ -93,14 +93,14 @@ RecipeList.propTypes = {
 };
 
 const mapStateToProps = ({
-  allRecipesData: { loading: allRecipesLoading, recipes }
+  fetchRecipesData: { loading: allRecipesLoading, recipes }
 }) => ({
   recipes,
   allRecipesLoading
 });
 
 const mapDispatchToProps = {
-  fetchAllRecipes
+  fetchRecipes
 };
 
 export default connect(

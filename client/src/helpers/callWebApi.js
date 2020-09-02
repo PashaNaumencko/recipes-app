@@ -37,7 +37,10 @@ function fillFormData(request) {
     if(field === 'imgFile') {
       formData.append('imgFile', request[field] ? request[field][0] : null);
     } else {
-      formData.append(field, request[field]);
+      formData.append(field, Array.isArray(request[field])
+        ? JSON.stringify(request[field])
+        : request[field]
+      );
     }
   });
 

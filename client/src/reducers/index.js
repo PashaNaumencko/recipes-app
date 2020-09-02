@@ -1,15 +1,11 @@
 import { combineReducers } from 'redux';
-import { currentRecipeData, createRecipeData, editRecipeData, editRecipeTitleData } from '../containers/CreateRecipe/reducer';
-import { addRecipeStepData, editRecipeStepData, deleteRecipeStepData } from '../containers/StepForm/reducer';
-import { allRecipesData } from '../containers/RecipeList/reducer';
+import { createRecipeData, editRecipeData } from '../containers/RecipeForm/reducer';
+import { fetchRecipeData } from '../containers/RecipePage/reducer';
+import { fetchRecipesData } from '../containers/RecipeList/reducer';
 
 export default combineReducers({
-  currentRecipeData,
+  fetchRecipeData,
   createRecipeData,
   editRecipeData,
-  editRecipeTitleData,
-  addRecipeStepData,
-  editRecipeStepData,
-  deleteRecipeStepData,
-  allRecipesData
+  fetchRecipesData
 });

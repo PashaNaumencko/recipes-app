@@ -14,7 +14,7 @@ const getRecipeById = (id: string): Promise<IRecipeDoc> => recipesRepository.get
 const createRecipe = async ({ imgFile, ...body }: IRecipe): Promise<IResponse> => {
   let imgUrl: string = 'https://gorving.com/_assets/_images/recipes/recipe-default@2x.png';
   if(imgFile) {
-    imgFile.mv('images/' + imgFile.name, (err: any) => {
+    imgFile.mv(`images/${imgFile.name}`, (err: any) => {
       if (err) {
         return {
           status: 500,
@@ -33,9 +33,8 @@ const createRecipe = async ({ imgFile, ...body }: IRecipe): Promise<IResponse> =
 };
 
 const updateRecipe = async (recipeId: string, { imgFile, ...body }: IRecipe): Promise<IResponse> => {
-  let imgUrl: string = 'https://gorving.com/_assets/_images/recipes/recipe-default@2x.png';
   if(imgFile) {
-    imgFile.mv('images/' + imgFile.name, (err: any) => {
+    imgFile.mv(`images/${imgFile.name}`, (err: any) => {
       if (err) {
         return {
           status: 500,
@@ -43,10 +42,10 @@ const updateRecipe = async (recipeId: string, { imgFile, ...body }: IRecipe): Pr
         };
       }
     });
-    imgUrl = `${serverUrl}/${imgFile.name}`;
+    // imgUrl = `${serverUrl}/${imgFile.name}`;
   }
 
-  const { _id } = await recipesRepository.updateById(recipeId, { ...body, imgUrl });
+  const { _id } = await recipesRepository.updateById(recipeId, body);
   return {
     _id,
     status: 200,

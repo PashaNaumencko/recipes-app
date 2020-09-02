@@ -38,8 +38,11 @@ router.post('/', (req: Request, res: Response, next: NextFunction): void => {
 });
 
 router.put('/:recipeId', (req: Request, res: Response, next: NextFunction): void => {
+  const { body, files } = req
   const { recipeId } = req.params;
-  updateRecipe(recipeId, req.body)
+  const imgFile = files ? req.files.imgFile : null;
+  console.log(req.files);
+  updateRecipe(recipeId, { ...body, imgFile })
     .then(({ status, ...data }: IResponse) => res.status(status).send(data))
     .catch(next)
 });

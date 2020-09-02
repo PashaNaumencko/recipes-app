@@ -13,8 +13,8 @@ async function connectToMongoDB(): Promise<void> {
     })
     console.log('Connection has been established successfully.');
   } catch (e) {
-    console.log('Server Error', e.message)
-    process.exit(1)
+    console.error('Server Error', e.message);
+    process.exit(1);
   }
 }
 

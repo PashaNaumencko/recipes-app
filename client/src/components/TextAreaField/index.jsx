@@ -1,12 +1,15 @@
 import React from 'react';
-import { TextArea } from 'semantic-ui-react';
+import { Form as UIForm, TextArea } from 'semantic-ui-react';
 
-const TextAreaField = ({ field, form: { errors } }) => (
-  <TextArea
-    {...field}
-    rows="3"
-    error={errors[field.name] ? { content: errors[field.name], pointing: 'top' } : null}
-  />
-);
+const TextAreaField = ({ field, placeholder, loading }) => {
+  return (
+    <TextArea
+      {...field}
+      rows="3"
+      placeholder={placeholder}
+      disabled={loading}
+    />
+  );
+};
 
 export default TextAreaField;

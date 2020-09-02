@@ -1,15 +1,6 @@
 import { createRoutine } from 'redux-saga-routines';
 
 export const fetchRecipe = createRoutine('FETCH_RECIPE');
-export const fetchAllRecipes = createRoutine('FETCH_ALL_RECIPES');
+export const fetchRecipes = createRoutine('FETCH_RECIPES');
 export const createRecipe = createRoutine('CREATE_RECIPE');
 export const editRecipe = createRoutine('EDIT_RECIPE');
-export const editRecipeTitle = createRoutine('EDIT_RECIPE_TITLE');
-export const fetchRecipeSteps = createRoutine('FETCH_RECIPE_STEPS');
-export const addRecipeStep = createRoutine('ADD_RECIPE_STEP');
-export const editRecipeStep = createRoutine('EDIT_RECIPE_STEP');
-export const deleteRecipeStep = createRoutine('DELETE_RECIPE_STEP');
-export const saveRecipeAddInfo = createRoutine('SAVE_RECIPE_ADD_INFO');
-
-
-export const SHOW_STEP_FORM = 'SHOW_STEP_FORM';

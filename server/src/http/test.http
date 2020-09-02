@@ -42,7 +42,12 @@ content-type: application/json
 
 ###
 
-GET http://localhost:5000/api/recipes/5f05ef3ef1e9c428a4ddc76a HTTP/1.1
+GET http://localhost:5000/api/recipes/5f08717117884318481339f2 HTTP/1.1
+content-type: application/json
+
+###
+
+GET http://localhost:5000/api/recipes/5f17025f6b83d0337de2a01e HTTP/1.1
 content-type: application/json
 
 ###

@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "0.0.0",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "start": "node --inspect=5858 -r ts-node/register ./src/server.ts",
     "start:watch": "nodemon",
@@ -25,15 +25,8 @@
     "dotenv": "^8.1.0",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6-alpha.5",
-    "http-errors": "~1.6.3",
     "mongoose": "^5.9.20",
-    "multiparty": "^4.2.1",
-    "path": "^0.12.7",
-    "pg": "^7.12.1",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^5.19.0",
-    "sequelize-cli": "^5.5.1",
-    "uuid": "^3.3.3"
+    "multiparty": "^4.2.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",

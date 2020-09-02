@@ -1,30 +1,30 @@
-import { fetchAllRecipes } from '../../routines';
+import { fetchRecipes } from '../../routines';
 
-const initialFetchAllRecipeseState = {
+const initialFetchRecipesState = {
   recipes: [],
   loading: false,
   error: null
 };
 
 
-export const allRecipesData = (state = initialFetchAllRecipeseState, action) => {
+export const fetchRecipesData = (state = initialFetchRecipesState, action) => {
   switch (action.type) {
-  case fetchAllRecipes.TRIGGER:
+  case fetchRecipes.TRIGGER:
     return {
       ...state,
       loading: true
     };
-  case fetchAllRecipes.SUCCESS:
+  case fetchRecipes.SUCCESS:
     return {
       ...state,
       recipes: action.payload
     };
-  case fetchAllRecipes.FAILURE:
+  case fetchRecipes.FAILURE:
     return {
       ...state,
       error: action.payload
     };
-  case fetchAllRecipes.FULFILL:
+  case fetchRecipes.FULFILL:
     return {
       ...state,
       loading: false
